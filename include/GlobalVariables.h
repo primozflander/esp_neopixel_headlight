@@ -4,7 +4,6 @@
 #include <Adafruit_NeoPixel.h>
 #include "Led.h"
 #include "Button.h"
-// #include "OTA.h"
 
 #define LED_STRIP_PIN D1
 #define IS_ALIVE_LED_PIN D4
@@ -34,3 +33,22 @@ Button ignitionSwitch(IGNITION_SWITCH_PIN);
 Button indicatorSwitch(INDICATOR_SWITCH_PIN);
 
 bool isLightOn = false;
+bool isLeftToRightAnimation = true;
+
+unsigned int ledBrightness = 50;
+unsigned int ledSeqDelay = 20;
+unsigned int indicatorSeqDelay = 20;
+
+uint32_t white = LedStrip.Color(255, 255, 255);
+uint32_t red = LedStrip.Color(0, 255, 0);
+uint32_t blue = LedStrip.Color(0, 0, 255);
+uint32_t green = LedStrip.Color(255, 0, 0);
+uint32_t cyan = LedStrip.Color(255, 0, 255);
+uint32_t yellow = LedStrip.Color(255, 255, 0);
+uint32_t magenta = LedStrip.Color(0, 255, 255);
+uint32_t amber = LedStrip.Color(255, 191, 0);
+uint32_t noColor = LedStrip.Color(0, 0, 0);
+
+uint32_t firstFlagColor = red;
+uint32_t secondFlagColor = white;
+uint32_t thirdFlagColor = green;

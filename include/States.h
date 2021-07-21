@@ -1,5 +1,5 @@
 #pragma once
-#include "GlobalVariables.h"
+// #include "GlobalVariables.h"
 #include "Functions.h"
 
 void state0()

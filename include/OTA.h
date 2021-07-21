@@ -3,18 +3,21 @@
 #include <ESP8266mDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
-#include "Credentials.h"
+// #include "Credentials.h"
+
+const char *SSID = "NeoPixel_Headlights_AP";
+const char *PASSWORD = "Esp32!_x";
 
 void setupOTA()
 {
-    WiFi.mode(WIFI_STA);
-    WiFi.begin(SSID, PASSWORD);
-    while (WiFi.waitForConnectResult() != WL_CONNECTED)
-    {
-        Serial.println("Connection Failed! Rebooting...");
-        delay(5000);
-        ESP.restart();
-    }
+    WiFi.mode(WIFI_AP);
+    WiFi.softAP(SSID, PASSWORD);
+    // while (WiFi.waitForConnectResult() != WL_CONNECTED)
+    // {
+    //     Serial.println("Connection Failed! Rebooting...");
+    //     delay(5000);
+    //     ESP.restart();
+    // }
 
     // Port defaults to 8266
     // ArduinoOTA.setPort(8266);
@@ -71,7 +74,6 @@ void setupOTA()
                            }
                        });
     ArduinoOTA.begin();
-    Serial.println("Ready");
-    Serial.print("IP address: ");
-    Serial.println(WiFi.localIP());
+    Serial.print("OTA IP address: ");
+    Serial.println(WiFi.softAPIP());
 }
