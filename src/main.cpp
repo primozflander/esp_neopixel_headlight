@@ -6,9 +6,10 @@
 
 void setup()
 {
+    readConfigAndSetVariables();
     initIO();
     initStates();
-    readConfigAndSetVariables();
+    initOTA();
     initServer();
 }
 

@@ -98,7 +98,6 @@ void state3()
     {
         Serial.println("State 3, indicator on");
     }
-    Serial.println("amber");
     #ifdef ANIMATE_LEFTTORIGHT
     setColorFromLeftToRight(AMBER, SEQ_DELAY);
     setColorFromLeftToRight(NO_COLOR, SEQ_DELAY);
@@ -106,14 +105,16 @@ void state3()
     setColorSeq(NO_COLOR, SEQ_DELAY);
     setColorSeq(AMBER, SEQ_DELAY);
     #endif
-    Serial.println("no color");
+    !indicatorSwitch.isPressed() ? indicatorOffCounter++ : indicatorOffCounter = 0;
 }
 
 bool transitionS3S0()
 {
-    if (!indicatorSwitch.isPressed() && !isLightOn)
+    if (!indicatorSwitch.isPressed() && !isLightOn && indicatorOffCounter > INDICATOR_TURN_OFF_COUNTER)
     {
         Serial.println("Indicator off");
+        digitalWrite(POWER_HOLD_PIN, LOW);
+        indicatorOffCounter = 0;
         return true;
     }
     return false;
@@ -121,7 +122,7 @@ bool transitionS3S0()
 
 bool transitionS3S2()
 {
-    if (!indicatorSwitch.isPressed() && isLightOn)
+    if (!indicatorSwitch.isPressed() && isLightOn && indicatorOffCounter > INDICATOR_TURN_OFF_COUNTER)
     {
         Serial.println("Indicator off");
         return true;
@@ -131,7 +132,7 @@ bool transitionS3S2()
 
 bool transitionS3S4()
 {
-    if (!ignitionSwitch.isPressed() && isLightOn)
+    if (!ignitionSwitch.isPressed() && isLightOn && indicatorOffCounter > INDICATOR_TURN_OFF_COUNTER)
     {
         Serial.println("Ignition off");
         return true;
@@ -155,6 +156,7 @@ void state4()
 bool transitionS4S0()
 {
     Serial.println("Transition S4S0");
+    digitalWrite(POWER_HOLD_PIN, LOW);
     return true;
 }
 

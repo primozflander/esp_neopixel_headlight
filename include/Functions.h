@@ -65,6 +65,8 @@ void showFlagColorsFromLeftToRight()
 
 void initIO()
 {
+    pinMode(POWER_HOLD_PIN, OUTPUT);
+    digitalWrite(POWER_HOLD_PIN, HIGH);
     Serial.begin(9600);
     if (!LittleFS.begin())
     {
@@ -73,7 +75,6 @@ void initIO()
     LedStrip.begin();
     LedStrip.setBrightness(BRIGHTNESS);
     Serial.println("Setup complete");
-    // setupOTA();
 }
 
 bool loadConfig() {

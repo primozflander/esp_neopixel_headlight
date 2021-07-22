@@ -4,9 +4,7 @@
 #include <ESPAsyncWebServer.h>
 #include <FS.h>
 
-// Replace with your network credentials
-const char *ssid = "esp_web_server";
-const char *password = "11112222";
+
 
 // Stores LED state
 String ledState;
@@ -71,11 +69,6 @@ String processor(const String &var)
 
 void initServer()
 {
-    // Connect to Wi-Fi
-    WiFi.mode(WIFI_AP);
-    WiFi.softAP(ssid, password);
-    Serial.println(WiFi.softAPIP());
-
     // Route for root / web page
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
               { request->send(LittleFS, "/index.html", String(), false, processor); });

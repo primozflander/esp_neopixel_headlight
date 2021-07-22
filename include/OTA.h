@@ -1,37 +1,15 @@
 #pragma once
+// #include "GlobalVariables.h"
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 // #include "Credentials.h"
 
-const char *SSID = "NeoPixel_Headlights_AP";
-const char *PASSWORD = "Esp32!_x";
-
-void setupOTA()
+void initOTA()
 {
     WiFi.mode(WIFI_AP);
     WiFi.softAP(SSID, PASSWORD);
-    // while (WiFi.waitForConnectResult() != WL_CONNECTED)
-    // {
-    //     Serial.println("Connection Failed! Rebooting...");
-    //     delay(5000);
-    //     ESP.restart();
-    // }
-
-    // Port defaults to 8266
-    // ArduinoOTA.setPort(8266);
-
-    // Hostname defaults to esp8266-[ChipID]
-    // ArduinoOTA.setHostname("myesp8266");
-
-    // No authentication by default
-    // ArduinoOTA.setPassword("admin");
-
-    // Password can be set with it's md5 value as well
-    // MD5(admin) = 21232f297a57a5a743894a0e4a801fc3
-    // ArduinoOTA.setPasswordHash("21232f297a57a5a743894a0e4a801fc3");
-
     ArduinoOTA.onStart([]()
                        {
                            String type;
