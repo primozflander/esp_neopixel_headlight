@@ -8,7 +8,7 @@ class Button {
     unsigned long lastDebounceTime = 0;
     unsigned long debounceDelay = 100;
   public:
-    Button(uint8_t pin);
+    Button(uint8_t pin, unsigned long debounceDelay = 100);
     void init();
     void update();
     int getState();

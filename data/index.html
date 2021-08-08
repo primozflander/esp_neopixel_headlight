@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Headlights Web Server</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+  <h1>Headlights Web Server</h1>
+  <form action="/get">
+    <p>
+    <fieldset>
+      <legend>Flag colors</legend>
+      <select name="firstFlagColor" id="firstFlagColor">
+        <option value="white">White</option>
+        <option value="red" selected>Red</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="cyan">Cyan</option>
+        <option value="yellow">Yellow</option>
+        <option value="magenta">Magenta</option>
+        <option value="amber">Amber</option>
+        <option value="noColor">No color</option>
+      </select>
+      <select name="secondFlagColor" id="secondFlagColor">
+        <option value="white" selected>White</option>
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="cyan">Cyan</option>
+        <option value="yellow">Yellow</option>
+        <option value="magenta">Magenta</option>
+        <option value="amber">Amber</option>
+        <option value="noColor">No color</option>
+      </select>
+      <select name="thirdFlagColor" id="thirdFlagColor">
+        <option value="white">White</option>
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="green" selected>Green</option>
+        <option value="cyan">Cyan</option>
+        <option value="yellow">Yellow</option>
+        <option value="magenta">Magenta</option>
+        <option value="amber">Amber</option>
+        <option value="noColor">No color</option>
+      </select>
+    </fieldset>
+  </p>
+  <p>
+    <fieldset>
+      <legend>Animation type</legend>
+      <select name="animations" id="animations">
+        <option value="0">Circular</option>
+        <option value="1" selected>From left to right</option>
+      </select>
+    </fieldset>
+    </p>
+    <p>
+    <fieldset>
+      <legend>Led brightness</legend>
+      <select name="ledBrightness" id="ledBrightness">
+        <option value=0>Zero</option>
+        <option value=64>Dark</option>
+        <option value=128 selected>Middle</option>
+        <option value=196>Bright</option>
+        <option value=255>Maximum</option>
+      </select>
+    </fieldset>
+    </p>
+    <p>
+      <fieldset>
+        <legend>Delays</legend>
+        <label>Startup/goodbye animation delay</label>
+        <input name="startupAnimationDelay" id="startupAnimationDelay" type="number" min="1" max="10000" value="20">
+        <label>Indicator animation delay</label>
+        <input name="indicatorAnimationDelay" id="indicatorAnimationDelay" type="number" min="1" max="10000" value="15">
+        <label>Sequential animation delay</label>
+        <input name="animationSeqDelay" id="animationSeqDelay" type="number" min="1" max="10000" value="10">
+        <label>Animation delay</label>
+        <input name="animationLeftToRightDelay" id="animationLeftToRightDelay" type="number" min="1" max="10000" value="25">
+      </fieldset>
+      </p>
+    <p>
+      <input class="saveButton" type="submit" value="Save" onclick="showSavedMessage()">
+    </p>
+  </form>
+  <div>
+    <p hidden class="message" id="saved"><strong>Parameters saved!</strong></p>
+  </div>
+</body>
+
+<script>
+  function showSavedMessage() {
+    document.getElementById("saved").style.display = "block";
+    setTimeout(function() {
+      document.getElementById("saved").style.display = "none";
+    }, 2000);
+  }
+</script>
+
+</html>

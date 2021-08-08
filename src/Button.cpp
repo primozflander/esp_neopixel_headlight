@@ -1,7 +1,8 @@
 #include "Button.h"
-Button::Button(uint8_t pin)
+Button::Button(uint8_t pin, unsigned long debounceDelay)
 {
     this->pin = pin;
+    this->debounceDelay = debounceDelay;
     lastReading = LOW;
     init();
 }
