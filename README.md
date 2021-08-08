@@ -24,6 +24,7 @@ It features:
 * Hello/goodbye animation
 * Two types of animations
 * User can select between eight different colors
+* LED brightness control
 * Server AP for changing configuration
 * OTA - over the air update
 
