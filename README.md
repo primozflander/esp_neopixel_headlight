@@ -4,14 +4,15 @@ Repository consists of software and brief description of how to set up the proje
 
 **Table of Contents**
 
-- [ESP8266 Neopixel Headlight](#ESP8266-Neopixel-Headlight)
+- [ESP8266 Neopixel Headlights](#ESP8266-Neopixel-Headlights)
   * [About The Project](#about-the-project)
     + [Built With](#built-with)
   * [Getting Started](#getting-started)
     + [Prerequisites](#prerequisites)
   * [Set up](#installation)
-    + [Uploading web server files](#uploading-bootloader)
-    + [Uploading firmware](#Uploading-software-via-PlatformIO)
+    + [Uploading web server files](#uploading-web-server-files)
+    + [Uploading firmware](#uploading-firmware)
+    + [Accessing the server](#accessing-the-server)
   * [Contact](#contact)
   * [Acknowledgements](#acknowledgements)
 
@@ -58,7 +59,7 @@ Follow this steps to set-up you board. Recommended board: NodeMCU 1.0 (ESP-12E)
 
 1. Default server IP: `192.168.4.1`
 
-![pio](docs/images/server.png)
+![server](docs/images/server.png)
 
 ## Contact
 
