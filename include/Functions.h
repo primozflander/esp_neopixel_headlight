@@ -1,5 +1,4 @@
 #pragma once
-// #include "GlobalVariables.h"
 #include "States.h"
 #include <ArduinoJson.h>
 #include "FS.h"
@@ -49,18 +48,18 @@ void setColor(uint32_t color)
     LedStrip.show();
 }
 
-void showFlagColorsSeq()
+void showFlagColorsSeq(int wait)
 {
-    setColorSeq(RED, SEQ_DELAY);
-    setColorSeq(WHITE, SEQ_DELAY);
-    setColorSeq(GREEN, SEQ_DELAY);
+    setColorSeq(red, wait);
+    setColorSeq(white, wait);
+    setColorSeq(green, wait);
 }
 
-void showFlagColorsFromLeftToRight()
+void showFlagColorsFromLeftToRight(int wait)
 {
-    setColorFromLeftToRight(RED, SEQ_DELAY);
-    setColorFromLeftToRight(WHITE, SEQ_DELAY);
-    setColorFromLeftToRight(GREEN, SEQ_DELAY);
+    setColorFromLeftToRight(red, wait);
+    setColorFromLeftToRight(white, wait);
+    setColorFromLeftToRight(green, wait);
 }
 
 void initIO()
@@ -77,75 +76,116 @@ void initIO()
     Serial.println("Setup complete");
 }
 
-bool loadConfig() {
-  File configFile = LittleFS.open("/config.json", "r");
-  if (!configFile) {
-    Serial.println("Failed to open config file");
-    return false;
-  }
+bool loadConfig()
+{
+    File configFile = LittleFS.open("/config.json", "r");
+    if (!configFile)
+    {
+        Serial.println("Failed to open config file");
+        return false;
+    }
+    size_t size = configFile.size();
+    if (size > 1024)
+    {
+        Serial.println("Config file size is too large");
+        return false;
+    }
+    std::unique_ptr<char[]> buf(new char[size]);
+    configFile.readBytes(buf.get(), size);
+    StaticJsonDocument<200> doc;
+    auto error = deserializeJson(doc, buf.get());
+    if (error)
+    {
+        Serial.println("Failed to parse config file");
+        return false;
+    }
+    firstFlagColor = doc["firstFlagColor"];
+    secondFlagColor = doc["secondFlagColor"];
+    thirdFlagColor = doc["thirdFlagColor"];
+    ledBrightness = doc["ledBrightness"];
+    isLeftToRightAnimation = doc["isLeftToRightAnimation"];
+    startupAnimationDelay = doc["startupAnimationDelay"];
+    indicatorAnimationDelay = doc["indicatorAnimationDelay"];
+    animationSeqDelay = doc["animationSeqDelay"];
+    animationLeftToRightDelay = doc["animationLeftToRightDelay"];
 
-  size_t size = configFile.size();
-  if (size > 1024) {
-    Serial.println("Config file size is too large");
-    return false;
-  }
-
-  // Allocate a buffer to store contents of the file.
-  std::unique_ptr<char[]> buf(new char[size]);
-
-  // We don't use String here because ArduinoJson library requires the input
-  // buffer to be mutable. If you don't use ArduinoJson, you may as well
-  // use configFile.readString instead.
-  configFile.readBytes(buf.get(), size);
-
-  StaticJsonDocument<200> doc;
-  auto error = deserializeJson(doc, buf.get());
-  if (error) {
-    Serial.println("Failed to parse config file");
-    return false;
-  }
-
-  const char* serverName = doc["serverName"];
-  const char* accessToken = doc["accessToken"];
-
-  // Real world application would store these values in some variables for
-  // later use.
-
-  Serial.print("Loaded serverName: ");
-  Serial.println(serverName);
-  Serial.print("Loaded accessToken: ");
-  Serial.println(accessToken);
-  return true;
+    Serial.println("Loaded parameters: ");
+    Serial.println(firstFlagColor);
+    Serial.println(secondFlagColor);
+    Serial.println(thirdFlagColor);
+    Serial.println(ledBrightness);
+    Serial.println(isLeftToRightAnimation);
+    Serial.println(startupAnimationDelay);
+    Serial.println(indicatorAnimationDelay);
+    Serial.println(animationSeqDelay);
+    Serial.println(animationLeftToRightDelay);
+    return true;
 }
 
-bool saveConfig() {
-  StaticJsonDocument<200> doc;
-  doc["serverName"] = "api.example.com";
-  doc["accessToken"] = "128du9as8du12eoue8da98h123ueh9h98";
-
-  File configFile = LittleFS.open("/config.json", "w");
-  if (!configFile) {
-    Serial.println("Failed to open config file for writing");
-    return false;
-  }
-
-  serializeJson(doc, configFile);
-  return true;
+bool saveConfig()
+{
+    StaticJsonDocument<200> doc;
+    doc["firstFlagColor"] = firstFlagColor;
+    doc["secondFlagColor"] = secondFlagColor;
+    doc["thirdFlagColor"] = thirdFlagColor;
+    doc["ledBrightness"] = ledBrightness;
+    doc["isLeftToRightAnimation"] = false;
+    doc["startupAnimationDelay"] = startupAnimationDelay;
+    doc["indicatorAnimationDelay"] = indicatorAnimationDelay;
+    doc["animationSeqDelay"] = animationSeqDelay;
+    doc["animationLeftToRightDelay"] = animationLeftToRightDelay;
+    File configFile = LittleFS.open("/config.json", "w");
+    if (!configFile)
+    {
+        Serial.println("Failed to open config file for writing");
+        return false;
+    }
+    serializeJson(doc, configFile);
+    return true;
 }
 
 void readConfigAndSetVariables()
 {
-    // if (!saveConfig())
-    // {
-    //     Serial.println("Failed to save config");
-    // }
-    // else
-    // {
-    //     Serial.println("Config saved");
-    // }
+    // !saveConfig() ? Serial.println("Failed to save config") : Serial.println("Config saved");
+    !loadConfig() ? Serial.println("Failed to load config") : Serial.println("Config loaded");
+}
 
-    if (!loadConfig())
+uint32_t convertColorNameToValue(String color)
+{
+    if (color == "white")
     {
-        Serial.println("Failed to load config");
+        return white;
+    }
+    else if (color == "red")
+    {
+        return red;
+    }
+    else if (color == "blue")
+    {
+        return blue;
+    }
+    else if (color == "green")
+    {
+        return green;
+    }
+    else if (color == "cyan")
+    {
+        return cyan;
+    }
+    else if (color == "yellow")
+    {
+        return yellow;
+    }
+    else if (color == "magenta")
+    {
+        return magenta;
+    }
+    else if (color == "amber")
+    {
+        return amber;
+    }
+    else
+    {
+        return noColor;
     }
 }

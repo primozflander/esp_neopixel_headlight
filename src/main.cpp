@@ -6,11 +6,11 @@
 
 void setup()
 {
-    readConfigAndSetVariables();
     initIO();
     initStates();
     initOTA();
     initServer();
+    readConfigAndSetVariables();
 }
 
 void loop()

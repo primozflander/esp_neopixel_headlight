@@ -7,11 +7,8 @@ void state0()
     if (states.executeOnce)
     {
         Serial.println("State0, lights Off");
-        #ifdef ANIMATE_LEFTTORIGHT
-        setColorFromLeftToRight(NO_COLOR, SEQ_DELAY);
-        #else
-        setColorSeq(NO_COLOR, SEQ_DELAY);
-        #endif
+        isLeftToRightAnimation ? setColorFromLeftToRight(noColor, animationLeftToRightDelay)
+                               : setColorSeq(noColor, animationLeftToRightDelay);
         onboardLed.off();
         isLightOn = false;
     }
@@ -26,7 +23,6 @@ bool transitionS0S1()
     }
     return false;
 }
-
 
 bool transitionS0S3()
 {
@@ -43,11 +39,8 @@ void state1()
     if (states.executeOnce)
     {
         Serial.println("State1, welcome sequence");
-        #ifdef ANIMATE_LEFTTORIGHT
-        showFlagColorsFromLeftToRight();
-        #else
-        showFlagColorsSeq();
-        #endif
+        isLeftToRightAnimation ? showFlagColorsFromLeftToRight(animationLeftToRightDelay)
+                               : showFlagColorsSeq(animationSeqDelay);
     }
 }
 
@@ -62,11 +55,8 @@ void state2()
     if (states.executeOnce)
     {
         Serial.println("State2, lights on");
-        #ifdef ANIMATE_LEFTTORIGHT
-        setColorFromLeftToRight(WHITE, SEQ_DELAY);
-        #else
-        setColorSeq(WHITE, SEQ_DELAY);
-        #endif
+        isLeftToRightAnimation ? setColorFromLeftToRight(white, animationLeftToRightDelay)
+                               : setColorSeq(white, animationLeftToRightDelay);
         onboardLed.on();
         isLightOn = true;
     }
@@ -98,13 +88,16 @@ void state3()
     {
         Serial.println("State 3, indicator on");
     }
-    #ifdef ANIMATE_LEFTTORIGHT
-    setColorFromLeftToRight(AMBER, SEQ_DELAY);
-    setColorFromLeftToRight(NO_COLOR, SEQ_DELAY);
-    #else
-    setColorSeq(NO_COLOR, SEQ_DELAY);
-    setColorSeq(AMBER, SEQ_DELAY);
-    #endif
+    if (isLeftToRightAnimation)
+    {
+        setColorFromLeftToRight(amber, animationLeftToRightDelay);
+        setColorFromLeftToRight(noColor, animationLeftToRightDelay);
+    }
+    else
+    {
+        setColorSeq(amber, animationSeqDelay);
+        setColorSeq(noColor, animationSeqDelay);
+    }
     !indicatorSwitch.isPressed() ? indicatorOffCounter++ : indicatorOffCounter = 0;
 }
 
@@ -145,11 +138,8 @@ void state4()
     if (states.executeOnce)
     {
         Serial.println("State4, goodbye sequence");
-        #ifdef ANIMATE_LEFTTORIGHT
-        showFlagColorsFromLeftToRight();
-        #else
-        showFlagColorsSeq();
-        #endif
+        isLeftToRightAnimation ? showFlagColorsFromLeftToRight(animationLeftToRightDelay)
+                               : showFlagColorsSeq(animationSeqDelay);
     }
 }
 

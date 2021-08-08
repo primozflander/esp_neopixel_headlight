@@ -1,10 +1,8 @@
 #pragma once
-// #include "GlobalVariables.h"
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
-// #include "Credentials.h"
 
 void initOTA()
 {
@@ -18,7 +16,7 @@ void initOTA()
                                type = "sketch";
                            }
                            else
-                           { // U_FS
+                           {
                                type = "filesystem";
                            }
                            Serial.println("Start updating " + type);
