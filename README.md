@@ -53,13 +53,13 @@ Follow this steps to set-up you board. Recommended board: NodeMCU 1.0 (ESP-12E)
 
 1. From side menu select `Upload` to upload firmware
 
-![pio](docs/images/spiffs.png)
+![pio](docs/images/spiffs.PNG)
 
 ### Accessing the server
 
 1. Default server IP: `192.168.4.1`
 
-![server](docs/images/server.png)
+![server](docs/images/server.PNG)
 
 ## Contact
 
