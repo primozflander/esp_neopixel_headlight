@@ -15,8 +15,7 @@
 #define STATE_DELAY 100
 #define INDICATOR_TURN_OFF_COUNTER 2
 #define LED_COUNT 64
-#define BRIGHTNESS 50
-#define ANIMATE_LEFTTORIGHT
+#define FLAG_DELAY 1000
 
 StateMachine states = StateMachine();
 Adafruit_NeoPixel LedStrip(LED_COUNT, LED_STRIP_PIN, NEO_GRB);
