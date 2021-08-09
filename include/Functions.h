@@ -50,16 +50,18 @@ void setColor(uint32_t color)
 
 void showFlagColorsSeq(int wait)
 {
-    setColorSeq(red, wait);
-    setColorSeq(white, wait);
-    setColorSeq(green, wait);
+    setColorSeq(firstFlagColor, wait);
+    setColorSeq(secondFlagColor, wait);
+    setColorSeq(thirdFlagColor, wait);
+    delay(FLAG_DELAY);
 }
 
 void showFlagColorsFromLeftToRight(int wait)
 {
-    setColorFromLeftToRight(red, wait);
-    setColorFromLeftToRight(white, wait);
-    setColorFromLeftToRight(green, wait);
+    setColorFromLeftToRight(firstFlagColor, wait);
+    setColorFromLeftToRight(secondFlagColor, wait);
+    setColorFromLeftToRight(thirdFlagColor, wait);
+
 }
 
 void initIO()
@@ -72,7 +74,7 @@ void initIO()
         Serial.println("Failed to mount file system");
     }
     LedStrip.begin();
-    LedStrip.setBrightness(BRIGHTNESS);
+    LedStrip.setBrightness(ledBrightness);
     Serial.println("Setup complete");
 }
 

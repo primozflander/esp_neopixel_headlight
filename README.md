@@ -9,7 +9,7 @@ Repository consists of software and brief description of how to set up the proje
     + [Built With](#built-with)
   * [Getting Started](#getting-started)
     + [Prerequisites](#prerequisites)
-  * [Set up](#installation)
+  * [Set up](#set-up)
     + [Uploading web server files](#uploading-web-server-files)
     + [Uploading firmware](#uploading-firmware)
     + [Accessing the server](#accessing-the-server)
@@ -23,6 +23,7 @@ A custom controller was developed for controlling NeoPixel LEDs inside the car h
 It features:
 * Hello/goodbye animation
 * Two types of animations
+* LED brightness control
 * User can select between eight different colors
 * LED brightness control
 * Server AP for changing configuration
