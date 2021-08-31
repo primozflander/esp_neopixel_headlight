@@ -4,11 +4,16 @@
 
 void state0()
 {
+    static bool isFirstTime = true;
     if (states.executeOnce)
     {
         Serial.println("State0, lights Off");
-        isLeftToRightAnimation ? setColorFromLeftToRight(noColor, animationLeftToRightDelay)
-                               : setColorSeq(noColor, animationLeftToRightDelay);
+        if (!isFirstTime)
+        {
+            isLeftToRightAnimation ? setColorFromLeftToRight(noColor, animationLeftToRightDelay)
+                                   : setColorSeq(noColor, animationLeftToRightDelay);
+            isFirstTime = false;
+        }
         onboardLed.off();
         isLightOn = false;
     }
