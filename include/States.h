@@ -138,8 +138,16 @@ void state4()
     if (states.executeOnce)
     {
         Serial.println("State4, goodbye sequence");
-        isLeftToRightAnimation ? showFlagColorsFromLeftToRight(animationLeftToRightDelay)
-                               : showFlagColorsSeq(animationSeqDelay);
+        if (isLeftToRightAnimation)
+        {
+            showFlagColorsFromLeftToRight(animationLeftToRightDelay);
+            setColorFromLeftToRight(noColor, animationLeftToRightDelay);
+        }
+        else
+        {
+            showFlagColorsSeq(animationSeqDelay);
+            setColorSeq(noColor, animationSeqDelay);
+        }
     }
 }
 

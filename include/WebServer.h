@@ -4,7 +4,6 @@
 #include <ESPAsyncWebServer.h>
 #include <FS.h>
 
-String ledState;
 AsyncWebServer server(80);
 
 String processor(const String &var)
@@ -28,6 +27,7 @@ void updateConfiguration(AsyncWebServerRequest *request)
     indicatorAnimationDelay = request->getParam(6)->value().toInt();
     animationSeqDelay = request->getParam(7)->value().toInt();
     animationLeftToRightDelay = request->getParam(8)->value().toInt();
+    LedStrip.setBrightness(ledBrightness);
     saveConfig();
 }
 
@@ -41,19 +41,19 @@ void initServer()
 
     server.on("/get", HTTP_GET, [](AsyncWebServerRequest *request)
               {
-                  //   int paramsNr = request->params();
-                  //   Serial.println(paramsNr);
-                  //   for (int i = 0; i < paramsNr; i++)
-                  //   {
-                  //       AsyncWebParameter *p = request->getParam(i);
-                  //       Serial.print("Param name: ");
-                  //       Serial.println(p->name());
-                  //       Serial.print("Param value: ");
-                  //       Serial.println(p->value());
-                  //       Serial.println("------");
-                  //   }
-                  updateConfiguration(request);
+                    int paramsNr = request->params();
+                    Serial.println(paramsNr);
+                    for (int i = 0; i < paramsNr; i++)
+                    {
+                        AsyncWebParameter *p = request->getParam(i);
+                        Serial.print("Param name: ");
+                        Serial.println(p->name());
+                        Serial.print("Param value: ");
+                        Serial.println(p->value());
+                        Serial.println("------");
+                    }
                   request->send(LittleFS, "/index.html", String(), false, processor);
+                  updateConfiguration(request);
               });
 
     server.onNotFound(notFound);

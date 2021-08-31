@@ -61,21 +61,7 @@ void showFlagColorsFromLeftToRight(int wait)
     setColorFromLeftToRight(firstFlagColor, wait);
     setColorFromLeftToRight(secondFlagColor, wait);
     setColorFromLeftToRight(thirdFlagColor, wait);
-
-}
-
-void initIO()
-{
-    pinMode(POWER_HOLD_PIN, OUTPUT);
-    digitalWrite(POWER_HOLD_PIN, HIGH);
-    Serial.begin(9600);
-    if (!LittleFS.begin())
-    {
-        Serial.println("Failed to mount file system");
-    }
-    LedStrip.begin();
-    LedStrip.setBrightness(ledBrightness);
-    Serial.println("Setup complete");
+    delay(FLAG_DELAY);
 }
 
 bool loadConfig()
@@ -94,7 +80,7 @@ bool loadConfig()
     }
     std::unique_ptr<char[]> buf(new char[size]);
     configFile.readBytes(buf.get(), size);
-    StaticJsonDocument<200> doc;
+    StaticJsonDocument<300> doc;
     auto error = deserializeJson(doc, buf.get());
     if (error)
     {
@@ -110,7 +96,6 @@ bool loadConfig()
     indicatorAnimationDelay = doc["indicatorAnimationDelay"];
     animationSeqDelay = doc["animationSeqDelay"];
     animationLeftToRightDelay = doc["animationLeftToRightDelay"];
-
     Serial.println("Loaded parameters: ");
     Serial.println(firstFlagColor);
     Serial.println(secondFlagColor);
@@ -124,9 +109,30 @@ bool loadConfig()
     return true;
 }
 
+void readConfigAndSetVariables()
+{
+    // !saveConfig() ? Serial.println("Failed to save config") : Serial.println("Config saved");
+    !loadConfig() ? Serial.println("Failed to load config") : Serial.println("Config loaded");
+}
+
+void initIO()
+{
+    pinMode(POWER_HOLD_PIN, OUTPUT);
+    digitalWrite(POWER_HOLD_PIN, HIGH);
+    Serial.begin(9600);
+    if (!LittleFS.begin())
+    {
+        Serial.println("Failed to mount file system");
+    }
+    readConfigAndSetVariables();
+    LedStrip.setBrightness(ledBrightness);
+    LedStrip.begin();
+    Serial.println("Setup complete");
+}
+
 bool saveConfig()
 {
-    StaticJsonDocument<200> doc;
+    StaticJsonDocument<300> doc;
     doc["firstFlagColor"] = firstFlagColor;
     doc["secondFlagColor"] = secondFlagColor;
     doc["thirdFlagColor"] = thirdFlagColor;
@@ -144,12 +150,6 @@ bool saveConfig()
     }
     serializeJson(doc, configFile);
     return true;
-}
-
-void readConfigAndSetVariables()
-{
-    // !saveConfig() ? Serial.println("Failed to save config") : Serial.println("Config saved");
-    !loadConfig() ? Serial.println("Failed to load config") : Serial.println("Config loaded");
 }
 
 uint32_t convertColorNameToValue(String color)
