@@ -91,6 +91,7 @@ bool loadConfig()
     secondFlagColor = doc["secondFlagColor"];
     thirdFlagColor = doc["thirdFlagColor"];
     ledBrightness = doc["ledBrightness"];
+    isMainLightEnabled = doc["isMainLightEnabled"];
     isLeftToRightAnimation = doc["isLeftToRightAnimation"];
     startupAnimationDelay = doc["startupAnimationDelay"];
     indicatorAnimationDelay = doc["indicatorAnimationDelay"];
@@ -101,11 +102,36 @@ bool loadConfig()
     Serial.println(secondFlagColor);
     Serial.println(thirdFlagColor);
     Serial.println(ledBrightness);
+    Serial.println(isMainLightEnabled);
     Serial.println(isLeftToRightAnimation);
     Serial.println(startupAnimationDelay);
     Serial.println(indicatorAnimationDelay);
     Serial.println(animationSeqDelay);
     Serial.println(animationLeftToRightDelay);
+    return true;
+}
+
+bool saveConfig()
+{
+    StaticJsonDocument<300> doc;
+    doc["firstFlagColor"] = firstFlagColor;
+    doc["secondFlagColor"] = secondFlagColor;
+    doc["thirdFlagColor"] = thirdFlagColor;
+    doc["ledBrightness"] = ledBrightness;
+    doc["isMainLightEnabled"] = isMainLightEnabled;
+    // doc["isLeftToRightAnimation"] = false;
+    doc["isLeftToRightAnimation"] = isLeftToRightAnimation;
+    doc["startupAnimationDelay"] = startupAnimationDelay;
+    doc["indicatorAnimationDelay"] = indicatorAnimationDelay;
+    doc["animationSeqDelay"] = animationSeqDelay;
+    doc["animationLeftToRightDelay"] = animationLeftToRightDelay;
+    File configFile = LittleFS.open("/config.json", "w");
+    if (!configFile)
+    {
+        Serial.println("Failed to open config file for writing");
+        return false;
+    }
+    serializeJson(doc, configFile);
     return true;
 }
 
@@ -128,28 +154,6 @@ void initIO()
     LedStrip.setBrightness(ledBrightness);
     LedStrip.begin();
     Serial.println("Setup complete");
-}
-
-bool saveConfig()
-{
-    StaticJsonDocument<300> doc;
-    doc["firstFlagColor"] = firstFlagColor;
-    doc["secondFlagColor"] = secondFlagColor;
-    doc["thirdFlagColor"] = thirdFlagColor;
-    doc["ledBrightness"] = ledBrightness;
-    doc["isLeftToRightAnimation"] = false;
-    doc["startupAnimationDelay"] = startupAnimationDelay;
-    doc["indicatorAnimationDelay"] = indicatorAnimationDelay;
-    doc["animationSeqDelay"] = animationSeqDelay;
-    doc["animationLeftToRightDelay"] = animationLeftToRightDelay;
-    File configFile = LittleFS.open("/config.json", "w");
-    if (!configFile)
-    {
-        Serial.println("Failed to open config file for writing");
-        return false;
-    }
-    serializeJson(doc, configFile);
-    return true;
 }
 
 uint32_t convertColorNameToValue(String color)

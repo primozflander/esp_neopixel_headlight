@@ -10,34 +10,11 @@
 
 <body>
   <h1>Headlights Web Server</h1>
-
   <form action="/get">
-    input1: <input type="text" name="input1">
-    <input type="submit" value="Submit">
-  </form><br>
-  <form action="/get">
-    input2: <input type="text" name="input2">
-    <input type="submit" value="Submit">
-  </form><br>
-  <form action="/get">
-    input3: <input type="text" name="input3">
-    <input type="submit" value="Submit">
-  </form>
-
-  <form action="/get">
-    input1: <input type="text" name="input1"><br>
-    input2: <input type="text" name="input2"><br>
-    input3: <input type="text" name="input3"><br>
-    <input type="submit" value="Submit">
-  </form>
-
-
-
-  <form action="/get">
+    <p>
     <fieldset>
       <legend>Flag colors</legend>
-      <!-- onchange="this.form.submit()" -->
-      <select name="firstFlagColor" id="flagColor">
+      <select name="firstFlagColor" id="firstFlagColor">
         <option value="white">White</option>
         <option value="red" selected>Red</option>
         <option value="blue">Blue</option>
@@ -71,131 +48,67 @@
         <option value="noColor">No color</option>
       </select>
     </fieldset>
-    <input type="submit" value="Submit">
+    </p>
+    <p>
+    <fieldset>
+      <legend>Animation type</legend>
+      <select name="animations" id="animations">
+        <option value="0">Circular</option>
+        <option value="1" selected>From left to right</option>
+      </select>
+    </fieldset>
+    </p>
+    <p>
+      <fieldset>
+        <legend>Main lights</legend>
+        <select name="mainLights" id="mainLights">
+          <option value=0>Disabled</option>
+          <option value=1 selected>Enabled</option>
+        </select>
+      </fieldset>
+    </p>
+    <p>
+    <fieldset>
+      <legend>Led brightness</legend>
+      <select name="ledBrightness" id="ledBrightness">
+        <option value=0>Zero</option>
+        <option value=64>Dark</option>
+        <option value=128 selected>Middle</option>
+        <option value=196>Bright</option>
+        <option value=255>Maximum</option>
+      </select>
+    </fieldset>
+    </p>
+    <p>
+    <fieldset>
+      <legend>Delays</legend>
+      <label>Startup/goodbye animation delay</label>
+      <input name="startupAnimationDelay" id="startupAnimationDelay" type="number" min="1" max="10000" value="20">
+      <label>Indicator animation delay</label>
+      <input name="indicatorAnimationDelay" id="indicatorAnimationDelay" type="number" min="1" max="10000" value="15">
+      <label>Sequential animation delay</label>
+      <input name="animationSeqDelay" id="animationSeqDelay" type="number" min="1" max="10000" value="10">
+      <label>Animation delay</label>
+      <input name="animationLeftToRightDelay" id="animationLeftToRightDelay" type="number" min="1" max="10000"
+        value="25">
+    </fieldset>
+    </p>
+    <p>
+      <input class="saveButton" type="submit" value="Save" onclick="showSavedMessage()">
+    </p>
   </form>
-
-  <p>
-  <fieldset>
-    <legend>Flag colors</legend>
-    <select name="flagColors" id="firstFlagColor">
-      <option value="white">White</option>
-      <option value="red" selected>Red</option>
-      <option value="blue">Blue</option>
-      <option value="green">Green</option>
-      <option value="cyan">Cyan</option>
-      <option value="yellow">Yellow</option>
-      <option value="magenta">Magenta</option>
-      <option value="amber">Amber</option>
-      <option value="noColor">No color</option>
-    </select>
-    <select name="flagColors" id="secondFlagColor">
-      <option value="white" selected>White</option>
-      <option value="red">Red</option>
-      <option value="blue">Blue</option>
-      <option value="green">Green</option>
-      <option value="cyan">Cyan</option>
-      <option value="yellow">Yellow</option>
-      <option value="magenta">Magenta</option>
-      <option value="amber">Amber</option>
-      <option value="noColor">No color</option>
-    </select>
-    <select name="flagColors" id="thirdFlagColor">
-      <option value="white">White</option>
-      <option value="red">Red</option>
-      <option value="blue">Blue</option>
-      <option value="green" selected>Green</option>
-      <option value="cyan">Cyan</option>
-      <option value="yellow">Yellow</option>
-      <option value="magenta">Magenta</option>
-      <option value="amber">Amber</option>
-      <option value="noColor">No color</option>
-    </select>
-  </fieldset>
-  </p>
-  <p>
-  <fieldset>
-    <legend>Animation type</legend>
-    <select name="animations" id="animations">
-      <option value="fromLeftToRight" selected>From left to right</option>
-      <option value="Circular">Circular</option>
-    </select>
-  </fieldset>
-  </p>
-  <p>
-  <fieldset>
-    <legend>Led brightness</legend>
-    <select name="ledBrightness" id="ledBrightness">
-      <option value="0">Zero</option>
-      <option value="64">Dark</option>
-      <option value="128" selected>Middle</option>
-      <option value="196">Bright</option>
-      <option value="255">Maximum</option>
-    </select>
-  </fieldset>
-  </p>
-  <p>
-    <a href="/on"><button class="button">Save</button></a>
-  </p>
-  <p>GPIO state<strong> %STATE%</strong></p>
-  <p>
-    <a href="/on"><button class="button">ON</button></a>
-    <a href="/off"><button class="button button2">OFF</button></a>
-  </p>
-  <p>
-    <span class="sensor-labels">Temperature</span>
-    <span id="temperature">%TEMPERATURE%</span>
-    <sup class="units">&deg;C</sup>
-  </p>
-  <p>
-    <span class="sensor-labels">Humidity</span>
-    <span id="humidity">%HUMIDITY%</span>
-    <sup class="units">&#37;</sup>
-  </p>
-  <p>
-    <span class="sensor-labels">Pressure</span>
-    <span id="pressure">%PRESSURE%</span>
-    <sup class="units">hPa</sup>
-  </p>
+  <div>
+    <p hidden class="message" id="saved"><strong>Parameters saved!</strong></p>
+  </div>
 </body>
 
-
 <script>
-
-  // var option = document.getElementById("secondFlagColor").value; 
-  document.getElementById("secondFlagColor").value = "noColor"; 
-
-  setInterval(function () {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("temperature").innerHTML = this.responseText;
-      }
-    };
-    xhttp.open("GET", "/temperature", true);
-    xhttp.send();
-  }, 10000);
-
-  setInterval(function () {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("humidity").innerHTML = this.responseText;
-      }
-    };
-    xhttp.open("GET", "/humidity", true);
-    xhttp.send();
-  }, 10000);
-
-  setInterval(function () {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("pressure").innerHTML = this.responseText;
-      }
-    };
-    xhttp.open("GET", "/pressure", true);
-    xhttp.send();
-  }, 10000);
+  function showSavedMessage() {
+    document.getElementById("saved").style.display = "block";
+    setTimeout(function () {
+      document.getElementById("saved").style.display = "none";
+    }, 2000);
+  }
 </script>
 
 </html>

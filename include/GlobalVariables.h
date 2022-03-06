@@ -15,7 +15,7 @@
 #define STATE_DELAY 100
 #define INDICATOR_TURN_OFF_COUNTER 2
 #define LED_COUNT 64
-#define FLAG_DELAY 1000
+#define FLAG_DELAY 100
 
 StateMachine states = StateMachine();
 Adafruit_NeoPixel LedStrip(LED_COUNT, LED_STRIP_PIN, NEO_GRB);
@@ -29,6 +29,7 @@ unsigned long indicatorOffCounter = 0;
 const char *SSID = "NeoPixel_Headlights_AP";
 const char *PASSWORD = "Esp32!_x";
 bool isLeftToRightAnimation = true;
+bool isMainLightEnabled = true;
 unsigned int ledBrightness = 50;
 unsigned int startupAnimationDelay = 20;
 unsigned int indicatorAnimationDelay = 15;

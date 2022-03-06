@@ -59,9 +59,16 @@ void state2()
 {
     if (states.executeOnce)
     {
-        Serial.println("State2, lights on");
-        isLeftToRightAnimation ? setColorFromLeftToRight(white, animationLeftToRightDelay)
-                               : setColorSeq(white, animationLeftToRightDelay);
+        if (isMainLightEnabled)
+        {
+            Serial.println("State2, lights on");
+            isLeftToRightAnimation ? setColorFromLeftToRight(white, animationLeftToRightDelay)
+                                   : setColorSeq(white, animationLeftToRightDelay);
+        }
+        else
+        {
+            Serial.println("State2, main lights disabled");
+        }
         onboardLed.on();
         isLightOn = true;
     }
