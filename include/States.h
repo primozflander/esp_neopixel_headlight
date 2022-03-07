@@ -76,7 +76,7 @@ void state2()
 
 bool transitionS2S3()
 {
-    if (indicatorSwitch.isPressed())
+    if (indicatorSwitch.isPressed() && isMainLightEnabled)
     {
         Serial.println("Indicator on");
         return true;

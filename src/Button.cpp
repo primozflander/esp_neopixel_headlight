@@ -9,13 +9,13 @@ Button::Button(uint8_t pin, unsigned long debounceDelay)
 
 void Button::init()
 {
-    pinMode(pin, INPUT_PULLUP);
+    pinMode(pin, INPUT);
     update();
 }
 
 void Button::update()
 {
-    int newReading = !digitalRead(pin);
+    int newReading = digitalRead(pin);
     if (newReading != lastReading)
     {
         lastDebounceTime = millis();

@@ -42,29 +42,29 @@ String processor(const String &var)
     }
     else if (var == "ANIMATIONTYPEPLACEHOLDER")
     {
-        String output = "<option value=0" + String(!isLeftToRightAnimation ? "selected" : "") + ">Circular</option>";
-        output += "<option value=1" + String(isLeftToRightAnimation ? "selected" : "") + ">From left to right</option>";
+        String output = "<option value=0" + String(!isLeftToRightAnimation ? " selected" : "") + ">Circular</option>";
+        output += "<option value=1" + String(isLeftToRightAnimation ? " selected" : "") + ">From left to right</option>";
         return output;
     }
     else if (var == "MAINLIGHTSPLACEHOLDER")
     {
-        String output = "<option value=0" + String(!isMainLightEnabled ? "selected" : "") + ">Disabled</option>";
-        output += "<option value=1" + String(isMainLightEnabled ? "selected" : "") + ">Enabled</option>";
+        String output = "<option value=0" + String(!isMainLightEnabled ? " selected" : "") + ">Disabled</option>";
+        output += "<option value=1" + String(isMainLightEnabled ? " selected" : "") + ">Enabled</option>";
         return output;
     }
     else if (var == "LEDBRIGHTNESSPLACEHOLDER")
     {
-        String output = "<option value=0" + String((ledBrightness == 0) ? "selected" : "") + ">Zero</option>";
-        output += "<option value=64" + String((ledBrightness == 64) ? "selected" : "") + ">Dark</option>";
-        output += "<option value=128" + String((ledBrightness == 128) ? "selected" : "") + ">Middle</option>";
-        output += "<option value=196" + String((ledBrightness == 196) ? "selected" : "") + ">Bright</option>";
-        output += "<option value=255" + String((ledBrightness == 255) ? "selected" : "") + ">Maximum</option>";
+        String output = "<option value=0" + String((ledBrightness == 0) ? " selected" : "") + ">Zero</option>";
+        output += "<option value=64" + String((ledBrightness == 64) ? " selected" : "") + ">Dark</option>";
+        output += "<option value=128" + String((ledBrightness == 128) ? " selected" : "") + ">Middle</option>";
+        output += "<option value=196" + String((ledBrightness == 196) ? " selected" : "") + ">Bright</option>";
+        output += "<option value=255" + String((ledBrightness == 255) ? " selected" : "") + ">Maximum</option>";
         return output;
     }
     else if (var == "DELAYSPLACEHOLDER")
     {
         String output = "<label>Startup/goodbye animation delay</label>";
-        output += "<input name=\"startupAnimationDelay\" id=\"startupAnimationDelay\" type=\"number\" min=\"1\" max=\"10000\" value=\"20\">";
+        output += "<input name=\"startupAnimationDelay\" id=\"startupAnimationDelay\" type=\"number\" min=\"1\" max=\"10000\" value=" + String(startupAnimationDelay) + ">";
         output += "<label>Indicator animation delay</label>";
         output += "<input name=\"indicatorAnimationDelay\" id=\"indicatorAnimationDelay\" type=\"number\" min=\"1\" max=\"10000\" value=" + String(indicatorAnimationDelay) + ">";
         output += "<label>Sequential animation delay</label>";

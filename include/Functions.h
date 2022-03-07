@@ -53,6 +53,7 @@ void showFlagColorsSeq(int wait)
     setColorSeq(firstFlagColor, wait);
     setColorSeq(secondFlagColor, wait);
     setColorSeq(thirdFlagColor, wait);
+    setColorSeq(noColor, wait);
     delay(FLAG_DELAY);
 }
 
@@ -61,6 +62,7 @@ void showFlagColorsFromLeftToRight(int wait)
     setColorFromLeftToRight(firstFlagColor, wait);
     setColorFromLeftToRight(secondFlagColor, wait);
     setColorFromLeftToRight(thirdFlagColor, wait);
+    setColorFromLeftToRight(noColor, wait);
     delay(FLAG_DELAY);
 }
 
