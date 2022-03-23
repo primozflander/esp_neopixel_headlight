@@ -56,21 +56,15 @@
     </fieldset>
     </p>
     <p>
-      <input class="saveButton" type="submit" value="Save" onclick="showSavedMessage()">
+      <input class="saveButton" id="save" type="submit" value="Save" onclick="showSavedMessage()">
     </p>
   </form>
-  <div>
-    <p hidden class="message" id="saved"><strong>Parameters saved!</strong></p>
-  </div>
 </body>
 
 <script>
   function showSavedMessage() {
-    document.getElementById("saved").style.display = "block";
-    setTimeout(function () {
-      document.getElementById("saved").style.display = "none";
-      window.location.reload();
-    }, 1000);
+    document.getElementById("save").value = "Saved!";
+    setTimeout(function () { document.location.reload(false); }, 500);
   }
 </script>
 

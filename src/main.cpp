@@ -3,14 +3,17 @@
 #include "Functions.h"
 #include "WebServer.h"
 #include "OTA.h"
+#include "EspNow.h"
 
 void setup()
 {
     initIO();
     initStates();
     initOTA();
+    #ifdef SENDER
     initServer();
-    readConfigAndSetVariables();
+    #endif
+    initESPNow();
 }
 
 void loop()

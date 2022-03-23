@@ -1,5 +1,4 @@
 #pragma once
-// #include "GlobalVariables.h"
 #include "Functions.h"
 
 void state0()
@@ -102,13 +101,13 @@ void state3()
     }
     if (isLeftToRightAnimation)
     {
-        setColorFromLeftToRight(amber, animationLeftToRightDelay);
-        setColorFromLeftToRight(noColor, animationLeftToRightDelay);
+        setColorFromLeftToRight(amber, indicatorAnimationDelay);
+        setColorFromLeftToRight(noColor, indicatorAnimationDelay);
     }
     else
     {
-        setColorSeq(amber, animationSeqDelay);
-        setColorSeq(noColor, animationSeqDelay);
+        setColorSeq(amber, indicatorAnimationDelay);
+        setColorSeq(noColor, indicatorAnimationDelay);
     }
     !indicatorSwitch.isPressed() ? indicatorOffCounter++ : indicatorOffCounter = 0;
 }

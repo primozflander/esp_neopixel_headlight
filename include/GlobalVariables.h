@@ -13,7 +13,7 @@
 #define POWER_HOLD_PIN D3
 
 #define STATE_DELAY 100
-#define INDICATOR_TURN_OFF_COUNTER 2
+#define INDICATOR_TURN_OFF_COUNTER 0
 #define LED_COUNT 4
 #define FLAG_DELAY 100
 
@@ -24,13 +24,28 @@ Led onboardLed(LED_PIN, true);
 Button ignitionSwitch(IGNITION_SWITCH_PIN);
 Button indicatorSwitch(INDICATOR_SWITCH_PIN);
 
+uint8_t espReceiverAddresses[][6] = {
+  {0xB4, 0xE6, 0x2D, 0x17, 0xEC, 0x67},
+  {0x84, 0xF3, 0xEB, 0x0A, 0x48, 0x14}
+};
+
+typedef struct struct_settings
+{
+  uint32_t firstFlagColor;
+  uint32_t secondFlagColor;
+  uint32_t thirdFlagColor;
+  int ledBrightness;
+  bool isMainLightEnabled;
+} struct_settings;
+struct_settings settingsToSync;
+
 bool isLightOn = false;
 unsigned long indicatorOffCounter = 0;
 const char *SSID = "NeoPixel_Headlights_AP";
 const char *PASSWORD = "Esp32!_x";
 bool isLeftToRightAnimation = true;
 bool isMainLightEnabled = true;
-unsigned int ledBrightness = 50;
+unsigned int ledBrightness = 64;
 unsigned int startupAnimationDelay = 20;
 unsigned int indicatorAnimationDelay = 15;
 unsigned int animationSeqDelay = 10;

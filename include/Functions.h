@@ -39,6 +39,17 @@ void setColorSeq(uint32_t color, int wait)
     }
 }
 
+// void setColorSeq(uint32_t color, int wait)
+// {
+//     for (int i = 0; i < LedStrip.numPixels(); i+=2)
+//     {
+//         LedStrip.setPixelColor(i, color);
+//         LedStrip.setPixelColor(i+1, color);
+//         LedStrip.show();
+//         delay(wait);
+//     }
+// }
+
 void setColor(uint32_t color)
 {
     for (int i = 0; i < LedStrip.numPixels(); i++)
@@ -121,7 +132,6 @@ bool saveConfig()
     doc["thirdFlagColor"] = thirdFlagColor;
     doc["ledBrightness"] = ledBrightness;
     doc["isMainLightEnabled"] = isMainLightEnabled;
-    // doc["isLeftToRightAnimation"] = false;
     doc["isLeftToRightAnimation"] = isLeftToRightAnimation;
     doc["startupAnimationDelay"] = startupAnimationDelay;
     doc["indicatorAnimationDelay"] = indicatorAnimationDelay;
@@ -147,7 +157,7 @@ void initIO()
 {
     pinMode(POWER_HOLD_PIN, OUTPUT);
     digitalWrite(POWER_HOLD_PIN, HIGH);
-    Serial.begin(9600);
+    Serial.begin(115200);
     if (!LittleFS.begin())
     {
         Serial.println("Failed to mount file system");

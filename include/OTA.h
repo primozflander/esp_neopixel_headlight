@@ -6,7 +6,7 @@
 
 void initOTA()
 {
-    WiFi.mode(WIFI_AP);
+    WiFi.mode(WIFI_AP_STA);
     WiFi.softAP(SSID, PASSWORD);
     ArduinoOTA.onStart([]()
                        {

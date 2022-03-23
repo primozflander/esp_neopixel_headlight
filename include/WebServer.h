@@ -3,6 +3,7 @@
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <FS.h>
+#include "EspNow.h"
 
 AsyncWebServer server(80);
 
@@ -95,6 +96,7 @@ void updateConfiguration(AsyncWebServerRequest *request)
     animationLeftToRightDelay = request->getParam(9)->value().toInt();
     LedStrip.setBrightness(ledBrightness);
     saveConfig();
+    syncSettingsViaESPNow();
 }
 
 void initServer()
@@ -108,7 +110,6 @@ void initServer()
     server.on("/get", HTTP_GET, [](AsyncWebServerRequest *request)
               {
                     int paramsNr = request->params();
-                    // Serial.println(paramsNr);
                     for (int i = 0; i < paramsNr; i++)
                     {
                         AsyncWebParameter *p = request->getParam(i);
@@ -118,8 +119,8 @@ void initServer()
                         Serial.println(p->value());
                         Serial.println("------");
                     }
-                  request->send(LittleFS, "/index.html", String(), false, processor);
-                  updateConfiguration(request); });
+                    request->send(LittleFS, "/index.html", String(), false, processor);
+                    updateConfiguration(request); });
 
     server.onNotFound(notFound);
     server.begin();
