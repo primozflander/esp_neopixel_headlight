@@ -29,26 +29,18 @@ void setColorFromLeftToRight(uint32_t color, int wait)
     setColorFromLeftToRightSingleRing(color, wait, 16, 48);
 }
 
-void setColorSeq(uint32_t color, int wait)
+void setColorSeq(uint32_t color, int wait, int numLedsSimultaneously = 1)
 {
-    for (int i = 0; i < LedStrip.numPixels(); i++)
+    for (int i = 0; i < LedStrip.numPixels(); i += numLedsSimultaneously)
     {
-        LedStrip.setPixelColor(i, color);
+        for (int j = 0; j < numLedsSimultaneously; j++)
+        {
+            LedStrip.setPixelColor(i + j, color);
+        }
         LedStrip.show();
         delay(wait);
     }
 }
-
-// void setColorSeq(uint32_t color, int wait)
-// {
-//     for (int i = 0; i < LedStrip.numPixels(); i+=2)
-//     {
-//         LedStrip.setPixelColor(i, color);
-//         LedStrip.setPixelColor(i+1, color);
-//         LedStrip.show();
-//         delay(wait);
-//     }
-// }
 
 void setColor(uint32_t color)
 {

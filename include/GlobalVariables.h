@@ -36,6 +36,11 @@ typedef struct struct_settings
   uint32_t thirdFlagColor;
   int ledBrightness;
   bool isMainLightEnabled;
+  bool isLeftToRightAnimation;
+  unsigned int startupAnimationDelay;
+  unsigned int indicatorAnimationDelay;
+  unsigned int animationSeqDelay;
+  unsigned int animationLeftToRightDelay;
 } struct_settings;
 struct_settings settingsToSync;
 

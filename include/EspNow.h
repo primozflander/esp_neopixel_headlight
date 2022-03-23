@@ -28,14 +28,30 @@ void OnDataRecv(uint8_t *mac, uint8_t *incomingData, uint8_t len)
     Serial.println(settingsToSync.secondFlagColor);
     Serial.print("Third flag color: ");
     Serial.println(settingsToSync.thirdFlagColor);
+    Serial.print("Led brightness: ");
+    Serial.println(settingsToSync.ledBrightness);
     Serial.print("Main lights state: ");
     Serial.println(settingsToSync.isMainLightEnabled);
-    Serial.println();
+    Serial.print("LToR animation: ");
+    Serial.println(settingsToSync.isLeftToRightAnimation);
+    Serial.print("Startup animation delay: ");
+    Serial.println(settingsToSync.startupAnimationDelay);
+    Serial.print("Indicator animation delay: ");
+    Serial.println(settingsToSync.indicatorAnimationDelay);
+    Serial.print("Animation seq delay: ");
+    Serial.println(settingsToSync.animationSeqDelay);
+    Serial.print("Animation LToR delay: ");
+    Serial.println(settingsToSync.animationLeftToRightDelay);
     firstFlagColor = settingsToSync.firstFlagColor;
     secondFlagColor = settingsToSync.secondFlagColor;
     thirdFlagColor = settingsToSync.thirdFlagColor;
     ledBrightness = settingsToSync.ledBrightness;
     isMainLightEnabled = settingsToSync.isMainLightEnabled;
+    isLeftToRightAnimation = settingsToSync.isLeftToRightAnimation;
+    startupAnimationDelay = settingsToSync.startupAnimationDelay;
+    indicatorAnimationDelay = settingsToSync.indicatorAnimationDelay;
+    animationSeqDelay = settingsToSync.animationSeqDelay;
+    animationLeftToRightDelay = settingsToSync.animationLeftToRightDelay;
     saveConfig();
 }
 
@@ -46,6 +62,11 @@ void syncSettingsViaESPNow()
     settingsToSync.thirdFlagColor = thirdFlagColor;
     settingsToSync.ledBrightness = ledBrightness;
     settingsToSync.isMainLightEnabled = isMainLightEnabled;
+    settingsToSync.isLeftToRightAnimation = isLeftToRightAnimation;
+    settingsToSync.startupAnimationDelay = startupAnimationDelay;
+    settingsToSync.indicatorAnimationDelay = indicatorAnimationDelay;
+    settingsToSync.animationSeqDelay = animationSeqDelay;
+    settingsToSync.animationLeftToRightDelay = animationLeftToRightDelay;
     for (size_t i = 0; i < (sizeof(espReceiverAddresses) / sizeof(espReceiverAddresses[0])); i++)
     {
         esp_now_send(espReceiverAddresses[i], (uint8_t *)&settingsToSync, sizeof(settingsToSync));
@@ -62,6 +83,7 @@ void initESPNow()
     }
 #ifdef SENDER
     esp_now_set_self_role(ESP_NOW_ROLE_CONTROLLER);
+    esp_now_register_send_cb(OnDataSent);
     for (size_t i = 0; i < (sizeof(espReceiverAddresses) / sizeof(espReceiverAddresses[0])); i++)
     {
         esp_now_add_peer(espReceiverAddresses[i], ESP_NOW_ROLE_SLAVE, 1, NULL, 0);
@@ -70,7 +92,6 @@ void initESPNow()
 #endif
 #ifdef RECEIVER
     esp_now_set_self_role(ESP_NOW_ROLE_SLAVE);
-#endif
-    esp_now_register_send_cb(OnDataSent);
     esp_now_register_recv_cb(OnDataRecv);
+#endif
 }
