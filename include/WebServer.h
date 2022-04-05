@@ -94,7 +94,8 @@ void updateConfiguration(AsyncWebServerRequest *request)
     indicatorAnimationDelay = request->getParam(7)->value().toInt();
     animationSeqDelay = request->getParam(8)->value().toInt();
     animationLeftToRightDelay = request->getParam(9)->value().toInt();
-    LedStrip.setBrightness(ledBrightness);
+    rightStrip.setBrightness(ledBrightness);
+    leftStrip.setBrightness(ledBrightness);
     saveConfig();
     syncSettingsViaESPNow();
 }

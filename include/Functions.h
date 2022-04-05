@@ -4,6 +4,35 @@
 #include "FS.h"
 #include <LittleFS.h>
 
+void setColorFromLeftToRightSingleRing(bool side, uint32_t color, int wait, int numLeds, int offset = 0)
+{
+    if (numLeds % 2 == 1)
+    {
+        Serial.println("Error, numLeds must be even!");
+        return;
+    }
+    if (side == 0)
+    {
+        for (int i = 0; i < numLeds / 2; i++)
+        {
+            rightStrip.setPixelColor(i + offset, color);
+            rightStrip.setPixelColor(numLeds - 1 - i + offset, color);
+            rightStrip.show();
+            delay(wait);
+        }
+    }
+    else
+    {
+        for (int i = 0; i < numLeds / 2; i++)
+        {
+            leftStrip.setPixelColor(i + offset, color);
+            leftStrip.setPixelColor(numLeds - 1 - i + offset, color);
+            leftStrip.show();
+            delay(wait);
+        }
+    }
+}
+
 void setColorFromLeftToRightSingleRing(uint32_t color, int wait, int numLeds, int offset = 0)
 {
     if (numLeds % 2 == 1)
@@ -13,12 +42,23 @@ void setColorFromLeftToRightSingleRing(uint32_t color, int wait, int numLeds, in
     }
     for (int i = 0; i < numLeds / 2; i++)
     {
-        LedStrip.setPixelColor(i + offset, color);
-        LedStrip.setPixelColor(numLeds - 1 - i + offset, color);
-        LedStrip.show();
+        rightStrip.setPixelColor(i + offset, color);
+        rightStrip.setPixelColor(numLeds - 1 - i + offset, color);
+        leftStrip.setPixelColor(i + offset, color);
+        leftStrip.setPixelColor(numLeds - 1 - i + offset, color);
+        rightStrip.show();
+        leftStrip.show();
         delay(wait);
         // Serial.println(String(i + offset) + " " + String(numLeds - 1 - i + offset));
     }
+}
+
+void setColorFromLeftToRight(bool side, uint32_t color, int wait)
+{
+    setColorFromLeftToRightSingleRing(side, color, wait, 16, 0);
+    setColorFromLeftToRightSingleRing(side, color, wait, 16, 16);
+    setColorFromLeftToRightSingleRing(side, color, wait, 16, 32);
+    setColorFromLeftToRightSingleRing(side, color, wait, 16, 48);
 }
 
 void setColorFromLeftToRight(uint32_t color, int wait)
@@ -29,26 +69,56 @@ void setColorFromLeftToRight(uint32_t color, int wait)
     setColorFromLeftToRightSingleRing(color, wait, 16, 48);
 }
 
+void setColorSeq(bool side, uint32_t color, int wait, int numLedsSimultaneously = 1)
+{
+    if (side == 0)
+    {
+        for (int i = 0; i < rightStrip.numPixels(); i += numLedsSimultaneously)
+        {
+            for (int j = 0; j < numLedsSimultaneously; j++)
+            {
+                rightStrip.setPixelColor(i + j, color);
+            }
+            rightStrip.show();
+            delay(wait);
+        }
+    }
+    else
+    {
+        for (int i = 0; i < leftStrip.numPixels(); i += numLedsSimultaneously)
+        {
+            for (int j = 0; j < numLedsSimultaneously; j++)
+            {
+                leftStrip.setPixelColor(i + j, color);
+            }
+            leftStrip.show();
+            delay(wait);
+        } 
+    }
+}
+
 void setColorSeq(uint32_t color, int wait, int numLedsSimultaneously = 1)
 {
-    for (int i = 0; i < LedStrip.numPixels(); i += numLedsSimultaneously)
+    for (int i = 0; i < rightStrip.numPixels(); i += numLedsSimultaneously)
     {
         for (int j = 0; j < numLedsSimultaneously; j++)
         {
-            LedStrip.setPixelColor(i + j, color);
+            rightStrip.setPixelColor(i + j, color);
+            leftStrip.setPixelColor(i + j, color);
         }
-        LedStrip.show();
+        rightStrip.show();
+        leftStrip.show();
         delay(wait);
     }
 }
 
-void setColor(uint32_t color)
+void setColor(Adafruit_NeoPixel ledStrip, uint32_t color)
 {
-    for (int i = 0; i < LedStrip.numPixels(); i++)
+    for (int i = 0; i < ledStrip.numPixels(); i++)
     {
-        LedStrip.setPixelColor(i, color);
+        ledStrip.setPixelColor(i, color);
     }
-    LedStrip.show();
+    ledStrip.show();
 }
 
 void showFlagColorsSeq(int wait)
@@ -155,8 +225,10 @@ void initIO()
         Serial.println("Failed to mount file system");
     }
     readConfigAndSetVariables();
-    LedStrip.setBrightness(ledBrightness);
-    LedStrip.begin();
+    rightStrip.setBrightness(ledBrightness);
+    leftStrip.setBrightness(ledBrightness);
+    rightStrip.begin();
+    leftStrip.begin();
     Serial.println("Setup complete");
 }
 

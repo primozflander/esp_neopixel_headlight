@@ -30,9 +30,9 @@ bool transitionS0S1()
 
 bool transitionS0S3()
 {
-    if (indicatorSwitch.isPressed())
+    if (indicatorSwitchRight.isPressed())
     {
-        Serial.println("Indicator on");
+        Serial.println("Right indicator on");
         return true;
     }
     return false;
@@ -75,9 +75,9 @@ void state2()
 
 bool transitionS2S3()
 {
-    if (indicatorSwitch.isPressed() && isMainLightEnabled)
+    if (indicatorSwitchRight.isPressed() && isMainLightEnabled)
     {
-        Serial.println("Indicator on");
+        Serial.println("Right indicator on");
         return true;
     }
     return false;
@@ -97,26 +97,26 @@ void state3()
 {
     if (states.executeOnce)
     {
-        Serial.println("State 3, indicator on");
+        Serial.println("State 3, right indicator on");
     }
     if (isLeftToRightAnimation)
     {
-        setColorFromLeftToRight(amber, indicatorAnimationDelay);
-        setColorFromLeftToRight(noColor, indicatorAnimationDelay);
+        setColorFromLeftToRight(0, amber, indicatorAnimationDelay);
+        setColorFromLeftToRight(0, noColor, indicatorAnimationDelay);
     }
     else
     {
-        setColorSeq(amber, indicatorAnimationDelay);
-        setColorSeq(noColor, indicatorAnimationDelay);
+        setColorSeq(0, amber, indicatorAnimationDelay);
+        setColorSeq(0, noColor, indicatorAnimationDelay);
     }
-    !indicatorSwitch.isPressed() ? indicatorOffCounter++ : indicatorOffCounter = 0;
+    !indicatorSwitchRight.isPressed() ? indicatorOffCounter++ : indicatorOffCounter = 0;
 }
 
 bool transitionS3S0()
 {
-    if (!indicatorSwitch.isPressed() && !isLightOn && indicatorOffCounter > INDICATOR_TURN_OFF_COUNTER)
+    if (!indicatorSwitchRight.isPressed() && !isLightOn && indicatorOffCounter > INDICATOR_TURN_OFF_COUNTER)
     {
-        Serial.println("Indicator off");
+        Serial.println("Right indicator off");
         digitalWrite(POWER_HOLD_PIN, LOW);
         indicatorOffCounter = 0;
         return true;
@@ -126,9 +126,9 @@ bool transitionS3S0()
 
 bool transitionS3S2()
 {
-    if (!indicatorSwitch.isPressed() && isLightOn && indicatorOffCounter > INDICATOR_TURN_OFF_COUNTER)
+    if (!indicatorSwitchRight.isPressed() && isLightOn && indicatorOffCounter > INDICATOR_TURN_OFF_COUNTER)
     {
-        Serial.println("Indicator off");
+        Serial.println("Right indicator off");
         return true;
     }
     return false;
@@ -169,21 +169,98 @@ bool transitionS4S0()
     return true;
 }
 
+void state5()
+{
+    if (states.executeOnce)
+    {
+        Serial.println("State 5, left indicator on");
+    }
+    if (isLeftToRightAnimation)
+    {
+        setColorFromLeftToRight(1, amber, indicatorAnimationDelay);
+        setColorFromLeftToRight(1, noColor, indicatorAnimationDelay);
+    }
+    else
+    {
+        setColorSeq(1, amber, indicatorAnimationDelay);
+        setColorSeq(1, noColor, indicatorAnimationDelay);
+    }
+    !indicatorSwitchLeft.isPressed() ? indicatorOffCounter++ : indicatorOffCounter = 0;
+}
+
+bool transitionS0S5()
+{
+    if (indicatorSwitchLeft.isPressed())
+    {
+        Serial.println("Left indicator on");
+        return true;
+    }
+    return false;
+}
+
+bool transitionS2S5()
+{
+    if (indicatorSwitchLeft.isPressed() && isMainLightEnabled)
+    {
+        Serial.println("Left indicator on");
+        return true;
+    }
+    return false;
+}
+
+bool transitionS5S0()
+{
+    if (!indicatorSwitchLeft.isPressed() && !isLightOn && indicatorOffCounter > INDICATOR_TURN_OFF_COUNTER)
+    {
+        Serial.println("Left indicator off");
+        digitalWrite(POWER_HOLD_PIN, LOW);
+        indicatorOffCounter = 0;
+        return true;
+    }
+    return false;
+}
+
+bool transitionS5S2()
+{
+    if (!indicatorSwitchLeft.isPressed() && isLightOn && indicatorOffCounter > INDICATOR_TURN_OFF_COUNTER)
+    {
+        Serial.println("Left indicator off");
+        return true;
+    }
+    return false;
+}
+
+bool transitionS5S4()
+{
+    if (!ignitionSwitch.isPressed() && isLightOn && indicatorOffCounter > INDICATOR_TURN_OFF_COUNTER)
+    {
+        Serial.println("Ignition off");
+        return true;
+    }
+    return false;
+}
+
 State *S0 = states.addState(&state0);
 State *S1 = states.addState(&state1);
 State *S2 = states.addState(&state2);
 State *S3 = states.addState(&state3);
 State *S4 = states.addState(&state4);
+State *S5 = states.addState(&state5);
 
 void initStates()
 {
     S0->addTransition(&transitionS0S1, S1);
     S0->addTransition(&transitionS0S3, S3);
+    S0->addTransition(&transitionS0S5, S5);
     S1->addTransition(&transitionS1S2, S2);
     S2->addTransition(&transitionS2S3, S3);
     S2->addTransition(&transitionS2S4, S4);
-    S3->addTransition(&transitionS3S2, S2);
+    S2->addTransition(&transitionS2S5, S5);
     S3->addTransition(&transitionS3S0, S0);
+    S3->addTransition(&transitionS3S2, S2);
     S3->addTransition(&transitionS3S4, S4);
     S4->addTransition(&transitionS4S0, S0);
+    S5->addTransition(&transitionS5S0, S0);
+    S5->addTransition(&transitionS5S2, S2);
+    S5->addTransition(&transitionS5S4, S4);
 }
