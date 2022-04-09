@@ -16,7 +16,7 @@
 #define STATE_DELAY 100
 #define INDICATOR_TURN_OFF_COUNTER 0
 #define LED_COUNT 210
-#define FLAG_DELAY 10
+#define FLAG_DELAY 15
 #define NUMLEDSEQ 4
 
 StateMachine states = StateMachine();
