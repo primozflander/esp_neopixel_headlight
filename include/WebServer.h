@@ -3,7 +3,7 @@
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <FS.h>
-#include "EspNow.h"
+#include "EspNowHandler.h"
 
 AsyncWebServer server(80);
 
@@ -28,7 +28,6 @@ String generateColorSelectionPlaceholder(uint32_t flagColorPosition)
 
 String processor(const String &var)
 {
-    // Serial.println("Processing webpage placeholders");
     if (var == "FIRSTFLAGCOLORPLACEHOLDER")
     {
         return generateColorSelectionPlaceholder(firstFlagColor);
@@ -43,7 +42,7 @@ String processor(const String &var)
     }
     else if (var == "ANIMATIONTYPEPLACEHOLDER")
     {
-        String output = "<option value=0" + String(!isLeftToRightAnimation ? " selected" : "") + ">Circular</option>";
+        String output = "<option value=0" + String(!isLeftToRightAnimation ? " selected" : "") + ">Sequential</option>";
         output += "<option value=1" + String(isLeftToRightAnimation ? " selected" : "") + ">From left to right</option>";
         return output;
     }

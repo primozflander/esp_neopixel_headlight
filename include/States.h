@@ -240,12 +240,72 @@ bool transitionS5S4()
     return false;
 }
 
+void state6()
+{
+    if (states.executeOnce)
+    {
+        Serial.println("State 6, Hazard indicators on");
+    }
+    if (isLeftToRightAnimation)
+    {
+        setColorFromLeftToRight(amber, indicatorAnimationDelay);
+        setColorFromLeftToRight(noColor, indicatorAnimationDelay);
+    }
+    else
+    {
+        setColorSeq(amber, indicatorAnimationDelay);
+        setColorSeq(noColor, indicatorAnimationDelay);
+    }
+    (!indicatorSwitchLeft.isPressed() || !indicatorSwitchRight.isPressed()) ? indicatorOffCounter++ : indicatorOffCounter = 0;
+}
+
+bool transitionS3S6()
+{
+    if (indicatorSwitchLeft.isPressed())
+    {
+        Serial.println("Left indicator on");
+        return true;
+    }
+    return false;
+}
+
+bool transitionS5S6()
+{
+    if (indicatorSwitchRight.isPressed())
+    {
+        Serial.println("Right indicator on");
+        return true;
+    }
+    return false;
+}
+
+bool transitionS6S3()
+{
+    if (!indicatorSwitchLeft.isPressed() && indicatorOffCounter > INDICATOR_TURN_OFF_COUNTER)
+    {
+        Serial.println("Left indicator off");
+        return true;
+    }
+    return false;
+}
+
+bool transitionS6S5()
+{
+    if (!indicatorSwitchRight.isPressed() && indicatorOffCounter > INDICATOR_TURN_OFF_COUNTER)
+    {
+        Serial.println("Right indicator off");
+        return true;
+    }
+    return false;
+}
+
 State *S0 = states.addState(&state0);
 State *S1 = states.addState(&state1);
 State *S2 = states.addState(&state2);
 State *S3 = states.addState(&state3);
 State *S4 = states.addState(&state4);
 State *S5 = states.addState(&state5);
+State *S6 = states.addState(&state6);
 
 void initStates()
 {
@@ -263,4 +323,8 @@ void initStates()
     S5->addTransition(&transitionS5S0, S0);
     S5->addTransition(&transitionS5S2, S2);
     S5->addTransition(&transitionS5S4, S4);
+    S3->addTransition(&transitionS3S6, S6);
+    S5->addTransition(&transitionS5S6, S6);
+    S6->addTransition(&transitionS6S3, S3);
+    S6->addTransition(&transitionS6S5, S5);
 }

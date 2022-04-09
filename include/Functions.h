@@ -4,7 +4,7 @@
 #include "FS.h"
 #include <LittleFS.h>
 
-void setColorFromLeftToRightSingleRing(bool side, uint32_t color, int wait, int numLeds, int offset = 0)
+void setColorFromLeftToRightSingleRing(bool side, uint32_t color, int wait, int numLeds, int offset = 0, int numLedsSimultaneously = 1)
 {
     if (numLeds % 2 == 1)
     {
@@ -13,60 +13,72 @@ void setColorFromLeftToRightSingleRing(bool side, uint32_t color, int wait, int 
     }
     if (side == 0)
     {
-        for (int i = 0; i < numLeds / 2; i++)
+        for (int i = 0; i < numLeds / 2; i += numLedsSimultaneously)
         {
-            rightStrip.setPixelColor(i + offset, color);
-            rightStrip.setPixelColor(numLeds - 1 - i + offset, color);
+            for (int j = 0; j < numLedsSimultaneously; j++)
+            {
+                rightStrip.setPixelColor(i + j + offset, color);
+                rightStrip.setPixelColor(numLeds - 1 - i - j + offset, color);
+            }
             rightStrip.show();
             delay(wait);
         }
     }
     else
     {
-        for (int i = 0; i < numLeds / 2; i++)
+        for (int i = 0; i < numLeds / 2; i += numLedsSimultaneously)
         {
-            leftStrip.setPixelColor(i + offset, color);
-            leftStrip.setPixelColor(numLeds - 1 - i + offset, color);
+            for (int j = 0; j < numLedsSimultaneously; j++)
+            {
+                leftStrip.setPixelColor(i + j + offset, color);
+                leftStrip.setPixelColor(numLeds - 1 - i - j + offset, color);
+            }
             leftStrip.show();
             delay(wait);
         }
     }
 }
 
-void setColorFromLeftToRightSingleRing(uint32_t color, int wait, int numLeds, int offset = 0)
+void setColorFromLeftToRightSingleRing(uint32_t color, int wait, int numLeds, int offset = 0, int numLedsSimultaneously = 1)
 {
     if (numLeds % 2 == 1)
     {
         Serial.println("Error, numLeds must be even!");
         return;
     }
-    for (int i = 0; i < numLeds / 2; i++)
+    for (int i = 0; i < numLeds / 2; i += numLedsSimultaneously)
     {
-        rightStrip.setPixelColor(i + offset, color);
-        rightStrip.setPixelColor(numLeds - 1 - i + offset, color);
-        leftStrip.setPixelColor(i + offset, color);
-        leftStrip.setPixelColor(numLeds - 1 - i + offset, color);
+        for (int j = 0; j < numLedsSimultaneously; j++)
+        {
+            rightStrip.setPixelColor(i + j + offset, color);
+            rightStrip.setPixelColor(numLeds - 1 - i - j + offset, color);
+            leftStrip.setPixelColor(i + j + offset, color);
+            leftStrip.setPixelColor(numLeds - 1 - i - j + offset, color);
+        }
         rightStrip.show();
         leftStrip.show();
         delay(wait);
-        // Serial.println(String(i + offset) + " " + String(numLeds - 1 - i + offset));
     }
 }
 
 void setColorFromLeftToRight(bool side, uint32_t color, int wait)
 {
-    setColorFromLeftToRightSingleRing(side, color, wait, 16, 0);
-    setColorFromLeftToRightSingleRing(side, color, wait, 16, 16);
-    setColorFromLeftToRightSingleRing(side, color, wait, 16, 32);
-    setColorFromLeftToRightSingleRing(side, color, wait, 16, 48);
+    // setColorFromLeftToRightSingleRing(side, color, wait, 16, 0);
+    // setColorFromLeftToRightSingleRing(side, color, wait, 16, 16);
+    // setColorFromLeftToRightSingleRing(side, color, wait, 16, 32);
+    // setColorFromLeftToRightSingleRing(side, color, wait, 16, 48);
+
+    setColorFromLeftToRightSingleRing(side, color, wait, 4, 0);
 }
 
 void setColorFromLeftToRight(uint32_t color, int wait)
 {
-    setColorFromLeftToRightSingleRing(color, wait, 16, 0);
-    setColorFromLeftToRightSingleRing(color, wait, 16, 16);
-    setColorFromLeftToRightSingleRing(color, wait, 16, 32);
-    setColorFromLeftToRightSingleRing(color, wait, 16, 48);
+    // setColorFromLeftToRightSingleRing(color, wait, 16, 0);
+    // setColorFromLeftToRightSingleRing(color, wait, 16, 16);
+    // setColorFromLeftToRightSingleRing(color, wait, 16, 32);
+    // setColorFromLeftToRightSingleRing(color, wait, 16, 48);
+
+    setColorFromLeftToRightSingleRing(color, wait, 4, 0);
 }
 
 void setColorSeq(bool side, uint32_t color, int wait, int numLedsSimultaneously = 1)
@@ -93,7 +105,7 @@ void setColorSeq(bool side, uint32_t color, int wait, int numLedsSimultaneously 
             }
             leftStrip.show();
             delay(wait);
-        } 
+        }
     }
 }
 
@@ -110,15 +122,6 @@ void setColorSeq(uint32_t color, int wait, int numLedsSimultaneously = 1)
         leftStrip.show();
         delay(wait);
     }
-}
-
-void setColor(Adafruit_NeoPixel ledStrip, uint32_t color)
-{
-    for (int i = 0; i < ledStrip.numPixels(); i++)
-    {
-        ledStrip.setPixelColor(i, color);
-    }
-    ledStrip.show();
 }
 
 void showFlagColorsSeq(int wait)
@@ -172,17 +175,17 @@ bool loadConfig()
     indicatorAnimationDelay = doc["indicatorAnimationDelay"];
     animationSeqDelay = doc["animationSeqDelay"];
     animationLeftToRightDelay = doc["animationLeftToRightDelay"];
-    Serial.println("Loaded parameters: ");
-    Serial.println(firstFlagColor);
-    Serial.println(secondFlagColor);
-    Serial.println(thirdFlagColor);
-    Serial.println(ledBrightness);
-    Serial.println(isMainLightEnabled);
-    Serial.println(isLeftToRightAnimation);
-    Serial.println(startupAnimationDelay);
-    Serial.println(indicatorAnimationDelay);
-    Serial.println(animationSeqDelay);
-    Serial.println(animationLeftToRightDelay);
+    // Serial.println("Loaded parameters: ");
+    // Serial.println(firstFlagColor);
+    // Serial.println(secondFlagColor);
+    // Serial.println(thirdFlagColor);
+    // Serial.println(ledBrightness);
+    // Serial.println(isMainLightEnabled);
+    // Serial.println(isLeftToRightAnimation);
+    // Serial.println(startupAnimationDelay);
+    // Serial.println(indicatorAnimationDelay);
+    // Serial.println(animationSeqDelay);
+    // Serial.println(animationLeftToRightDelay);
     return true;
 }
 
@@ -211,7 +214,6 @@ bool saveConfig()
 
 void readConfigAndSetVariables()
 {
-    // !saveConfig() ? Serial.println("Failed to save config") : Serial.println("Config saved");
     !loadConfig() ? Serial.println("Failed to load config") : Serial.println("Config loaded");
 }
 

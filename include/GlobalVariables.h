@@ -55,7 +55,7 @@ bool isLeftToRightAnimation = true;
 bool isMainLightEnabled = true;
 unsigned int ledBrightness = 64;
 unsigned int startupAnimationDelay = 20;
-unsigned int indicatorAnimationDelay = 15;
+unsigned int indicatorAnimationDelay = 100;
 unsigned int animationSeqDelay = 10;
 unsigned int animationLeftToRightDelay = 20;
 
