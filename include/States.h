@@ -67,6 +67,9 @@ void state2()
         else
         {
             Serial.println("State2, main lights disabled");
+            // define show mode here
+            showMode();
+
         }
         onboardLed.on();
         isLightOn = true;

@@ -4,7 +4,23 @@
 #include "FS.h"
 #include <LittleFS.h>
 
-void setColorFromLeftToRightSingleRing(bool side, uint32_t color, int wait, int numLeds, int offset = 0, int numLedsSimultaneously = 1)
+void showMode()
+{
+    // custom function
+    for(int i = 0; i < 50; i++)
+    {
+        rightStrip.setPixelColor(i, red);
+    }   
+
+    rightStrip.show();
+
+    //seq function
+    //setColorSeq(red, 100, 3);
+    //setColorFromLeftToRight(red, 100, 50);
+    
+}
+
+void setColorFromLeftToRightSingleRing(bool side, uint32_t color, int wait, int numLeds, int offset = 0, int numLedsSimultaneously = NUMLEDSEQ)
 {
     if (numLeds % 2 == 1)
     {
@@ -39,7 +55,7 @@ void setColorFromLeftToRightSingleRing(bool side, uint32_t color, int wait, int 
     }
 }
 
-void setColorFromLeftToRightSingleRing(uint32_t color, int wait, int numLeds, int offset = 0, int numLedsSimultaneously = 1)
+void setColorFromLeftToRightSingleRing(uint32_t color, int wait, int numLeds, int offset = 0, int numLedsSimultaneously = NUMLEDSEQ)
 {
     if (numLeds % 2 == 1)
     {
@@ -81,7 +97,7 @@ void setColorFromLeftToRight(uint32_t color, int wait)
     setColorFromLeftToRightSingleRing(color, wait, 4, 0);
 }
 
-void setColorSeq(bool side, uint32_t color, int wait, int numLedsSimultaneously = 1)
+void setColorSeq(bool side, uint32_t color, int wait, int numLedsSimultaneously = NUMLEDSEQ)
 {
     if (side == 0)
     {
@@ -109,7 +125,7 @@ void setColorSeq(bool side, uint32_t color, int wait, int numLedsSimultaneously 
     }
 }
 
-void setColorSeq(uint32_t color, int wait, int numLedsSimultaneously = 1)
+void setColorSeq(uint32_t color, int wait, int numLedsSimultaneously = NUMLEDSEQ)
 {
     for (int i = 0; i < rightStrip.numPixels(); i += numLedsSimultaneously)
     {

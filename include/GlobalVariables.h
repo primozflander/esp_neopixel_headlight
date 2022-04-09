@@ -5,18 +5,19 @@
 #include "Led.h"
 #include "Button.h"
 
-#define LED_STRIP_RIGHT_PIN D1
-#define LED_STRIP_LEFT_PIN D2
+#define LED_STRIP_RIGHT_PIN 12
+#define LED_STRIP_LEFT_PIN 0
 #define IS_ALIVE_LED_PIN D4
-#define LED_PIN D0
-#define IGNITION_SWITCH_PIN D5
-#define INDICATOR_SWITCH_RIGHT_PIN D6
-#define INDICATOR_SWITCH_LEFT_PIN D7
-#define POWER_HOLD_PIN D3
+#define LED_PIN 16  //may need changing
+#define IGNITION_SWITCH_PIN 5
+#define INDICATOR_SWITCH_RIGHT_PIN 4
+#define INDICATOR_SWITCH_LEFT_PIN 13
+#define POWER_HOLD_PIN 14
 #define STATE_DELAY 100
 #define INDICATOR_TURN_OFF_COUNTER 0
 #define LED_COUNT 210
-#define FLAG_DELAY 100
+#define FLAG_DELAY 10
+#define NUMLEDSEQ 4
 
 StateMachine states = StateMachine();
 Adafruit_NeoPixel rightStrip(LED_COUNT, LED_STRIP_RIGHT_PIN, NEO_GRB);
@@ -68,6 +69,7 @@ uint32_t yellow = rightStrip.Color(255, 255, 0);
 uint32_t magenta = rightStrip.Color(0, 255, 255);
 uint32_t amber = rightStrip.Color(255, 191, 0);
 uint32_t noColor = rightStrip.Color(0, 0, 0);
+uint32_t customColor = rightStrip.Color(0, 0, 0);
 uint32_t firstFlagColor = red;
 uint32_t secondFlagColor = white;
 uint32_t thirdFlagColor = green;
