@@ -13,9 +13,9 @@
 #define INDICATOR_SWITCH_RIGHT_PIN D6
 #define INDICATOR_SWITCH_LEFT_PIN D7
 #define POWER_HOLD_PIN D3
-#define STATE_DELAY 100
+#define STATE_DELAY 10
 #define INDICATOR_TURN_OFF_COUNTER 0
-#define LED_COUNT 4
+#define LED_COUNT 210
 #define FLAG_DELAY 100
 
 StateMachine states = StateMachine();

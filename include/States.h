@@ -71,6 +71,7 @@ void state2()
         onboardLed.on();
         isLightOn = true;
     }
+    showMode(1);
 }
 
 bool transitionS2S3()

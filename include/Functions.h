@@ -4,6 +4,42 @@
 #include "FS.h"
 #include <LittleFS.h>
 
+void showMode(int stepDelay = 26)
+{
+    static unsigned int effStep = 0;
+    float factor1, factor2;
+    uint16_t ind;
+    for (uint16_t i = 0; i < LED_COUNT; i++)
+    {
+        ind = effStep + i * 0.9;
+        switch ((int)((ind % 189) / 63))
+        {
+        case 0:
+            factor1 = 1.0 - ((float)(ind % 189 - 0 * 63) / 63);
+            factor2 = (float)((int)(ind - 0) % 189) / 63;
+            rightStrip.setPixelColor(i, 255 * factor1 + 255 * factor2, 0 * factor1 + 255 * factor2, 0 * factor1 + 255 * factor2);
+            leftStrip.setPixelColor(i, 255 * factor1 + 255 * factor2, 0 * factor1 + 255 * factor2, 0 * factor1 + 255 * factor2);
+            break;
+        case 1:
+            factor1 = 1.0 - ((float)(ind % 189 - 1 * 63) / 63);
+            factor2 = (float)((int)(ind - 63) % 189) / 63;
+            rightStrip.setPixelColor(i, 255 * factor1 + 0 * factor2, 255 * factor1 + 255 * factor2, 255 * factor1 + 0 * factor2);
+            leftStrip.setPixelColor(i, 255 * factor1 + 0 * factor2, 255 * factor1 + 255 * factor2, 255 * factor1 + 0 * factor2);
+            break;
+        case 2:
+            factor1 = 1.0 - ((float)(ind % 189 - 2 * 63) / 63);
+            factor2 = (float)((int)(ind - 126) % 189) / 63;
+            rightStrip.setPixelColor(i, 0 * factor1 + 255 * factor2, 255 * factor1 + 0 * factor2, 0 * factor1 + 0 * factor2);
+            leftStrip.setPixelColor(i, 0 * factor1 + 255 * factor2, 255 * factor1 + 0 * factor2, 0 * factor1 + 0 * factor2);
+            break;
+        }
+    }
+    effStep++;
+    delay(stepDelay);
+    rightStrip.show();
+    leftStrip.show();
+}
+
 void setColorFromLeftToRightSingleRing(bool side, uint32_t color, int wait, int numLeds, int offset = 0, int numLedsSimultaneously = 1)
 {
     if (numLeds % 2 == 1)
