@@ -16,7 +16,7 @@
 #define STATE_DELAY 100
 #define INDICATOR_TURN_OFF_COUNTER 0
 #define LED_COUNT 210
-#define FLAG_DELAY 15
+#define FLAG_DELAY 20
 #define NUMLEDSEQ 4
 
 StateMachine states = StateMachine();
@@ -67,7 +67,7 @@ uint32_t green = rightStrip.Color(255, 0, 0);
 uint32_t cyan = rightStrip.Color(255, 0, 255);
 uint32_t yellow = rightStrip.Color(255, 255, 0);
 uint32_t magenta = rightStrip.Color(0, 255, 255);
-uint32_t amber = rightStrip.Color(255, 191, 0);
+uint32_t amber = rightStrip.Color(255, 60, 0);
 uint32_t noColor = rightStrip.Color(0, 0, 0);
 uint32_t customColor = rightStrip.Color(0, 0, 0);
 uint32_t firstFlagColor = red;

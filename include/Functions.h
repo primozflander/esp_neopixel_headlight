@@ -84,7 +84,7 @@ void setColorFromLeftToRight(bool side, uint32_t color, int wait)
     // setColorFromLeftToRightSingleRing(side, color, wait, 16, 32);
     // setColorFromLeftToRightSingleRing(side, color, wait, 16, 48);
 
-    setColorFromLeftToRightSingleRing(side, color, wait, 4, 0);
+    setColorFromLeftToRightSingleRing(side, color, wait, 210, 0);
 }
 
 void setColorFromLeftToRight(uint32_t color, int wait)
@@ -94,7 +94,7 @@ void setColorFromLeftToRight(uint32_t color, int wait)
     // setColorFromLeftToRightSingleRing(color, wait, 16, 32);
     // setColorFromLeftToRightSingleRing(color, wait, 16, 48);
 
-    setColorFromLeftToRightSingleRing(color, wait, 4, 0);
+    setColorFromLeftToRightSingleRing(color, wait, 210, 0);
 }
 
 void setColorSeq(bool side, uint32_t color, int wait, int numLedsSimultaneously = NUMLEDSEQ)
