@@ -48,8 +48,9 @@ String processor(const String &var)
     }
     else if (var == "MAINLIGHTSPLACEHOLDER")
     {
-        String output = "<option value=0" + String(!isMainLightEnabled ? " selected" : "") + ">Disabled</option>";
-        output += "<option value=1" + String(isMainLightEnabled ? " selected" : "") + ">Enabled</option>";
+        String output = "<option value=0" + String(mainLightMode == 0 ? " selected" : "") + ">Disabled</option>";
+        output += "<option value=1" + String(mainLightMode == 1 ? " selected" : "") + ">Enabled</option>";
+        output += "<option value=2" + String(mainLightMode == 2 ? " selected" : "") + ">Light show</option>";
         return output;
     }
     else if (var == "LEDBRIGHTNESSPLACEHOLDER")
@@ -87,7 +88,7 @@ void updateConfiguration(AsyncWebServerRequest *request)
     secondFlagColor = convertColorNameToValue(request->getParam(1)->value());
     thirdFlagColor = convertColorNameToValue(request->getParam(2)->value());
     isLeftToRightAnimation = request->getParam(3)->value().toInt() ? true : false;
-    isMainLightEnabled = request->getParam(4)->value().toInt() ? true : false;
+    mainLightMode = request->getParam(4)->value().toInt();
     ledBrightness = request->getParam(5)->value().toInt();
     startupAnimationDelay = request->getParam(6)->value().toInt();
     indicatorAnimationDelay = request->getParam(7)->value().toInt();

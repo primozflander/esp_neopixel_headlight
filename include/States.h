@@ -58,7 +58,7 @@ void state2()
 {
     if (states.executeOnce)
     {
-        if (isMainLightEnabled)
+        if (mainLightMode == 1)
         {
             Serial.println("State2, lights on");
             isLeftToRightAnimation ? setColorFromLeftToRight(white, animationLeftToRightDelay)
@@ -67,18 +67,20 @@ void state2()
         else
         {
             Serial.println("State2, main lights disabled");
-            // define show mode here
-            //showMode();
-
         }
         onboardLed.on();
         isLightOn = true;
+    }
+    if (mainLightMode == 2)
+    {
+        showMode(10);
+        // Serial.println("State2, here");
     }
 }
 
 bool transitionS2S3()
 {
-    if (indicatorSwitchRight.isPressed() && isMainLightEnabled)
+    if (indicatorSwitchRight.isPressed() && mainLightMode)
     {
         Serial.println("Right indicator on");
         return true;
@@ -203,7 +205,7 @@ bool transitionS0S5()
 
 bool transitionS2S5()
 {
-    if (indicatorSwitchLeft.isPressed() && isMainLightEnabled)
+    if (indicatorSwitchLeft.isPressed() && mainLightMode)
     {
         Serial.println("Left indicator on");
         return true;

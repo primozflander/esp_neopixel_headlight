@@ -13,11 +13,25 @@
 #define INDICATOR_SWITCH_RIGHT_PIN 4
 #define INDICATOR_SWITCH_LEFT_PIN 13
 #define POWER_HOLD_PIN 14
-#define STATE_DELAY 100
+#define STATE_DELAY 10
 #define INDICATOR_TURN_OFF_COUNTER 0
 #define LED_COUNT 210
 #define FLAG_DELAY 20
 #define NUMLEDSEQ 4
+
+// Test board pinout
+// #define LED_STRIP_RIGHT_PIN D1
+// #define LED_STRIP_LEFT_PIN D2
+// #define IS_ALIVE_LED_PIN D4
+// #define LED_PIN D0
+// #define IGNITION_SWITCH_PIN D5
+// #define INDICATOR_SWITCH_RIGHT_PIN D6
+// #define INDICATOR_SWITCH_LEFT_PIN D7
+// #define POWER_HOLD_PIN D3
+// #define STATE_DELAY 10
+// #define INDICATOR_TURN_OFF_COUNTER 0
+// #define LED_COUNT 210
+// #define FLAG_DELAY 100
 
 StateMachine states = StateMachine();
 Adafruit_NeoPixel rightStrip(LED_COUNT, LED_STRIP_RIGHT_PIN, NEO_GRB);
@@ -29,8 +43,8 @@ Button indicatorSwitchRight(INDICATOR_SWITCH_RIGHT_PIN);
 Button indicatorSwitchLeft(INDICATOR_SWITCH_LEFT_PIN);
 
 uint8_t espReceiverAddresses[][6] = {
-  {0xB4, 0xE6, 0x2D, 0x17, 0xEC, 0x67},
-  {0x84, 0xF3, 0xEB, 0x0A, 0x48, 0x14}
+  // {0xB4, 0xE6, 0x2D, 0x17, 0xEC, 0x67},
+  // {0x84, 0xF3, 0xEB, 0x0A, 0x48, 0x14}
 };
 
 typedef struct struct_settings
@@ -39,7 +53,7 @@ typedef struct struct_settings
   uint32_t secondFlagColor;
   uint32_t thirdFlagColor;
   int ledBrightness;
-  bool isMainLightEnabled;
+  int mainLightMode;
   bool isLeftToRightAnimation;
   unsigned int startupAnimationDelay;
   unsigned int indicatorAnimationDelay;
@@ -53,7 +67,7 @@ unsigned long indicatorOffCounter = 0;
 const char *SSID = "NeoPixel_Headlights_AP";
 const char *PASSWORD = "Esp32!_x";
 bool isLeftToRightAnimation = true;
-bool isMainLightEnabled = true;
+int mainLightMode = true;
 unsigned int ledBrightness = 64;
 unsigned int startupAnimationDelay = 20;
 unsigned int indicatorAnimationDelay = 100;

@@ -30,8 +30,8 @@ void OnDataRecv(uint8_t *mac, uint8_t *incomingData, uint8_t len)
     Serial.println(settingsToSync.thirdFlagColor);
     Serial.print("Led brightness: ");
     Serial.println(settingsToSync.ledBrightness);
-    Serial.print("Main lights state: ");
-    Serial.println(settingsToSync.isMainLightEnabled);
+    Serial.print("Main light mode: ");
+    Serial.println(settingsToSync.mainLightMode);
     Serial.print("LToR animation: ");
     Serial.println(settingsToSync.isLeftToRightAnimation);
     Serial.print("Startup animation delay: ");
@@ -46,7 +46,7 @@ void OnDataRecv(uint8_t *mac, uint8_t *incomingData, uint8_t len)
     secondFlagColor = settingsToSync.secondFlagColor;
     thirdFlagColor = settingsToSync.thirdFlagColor;
     ledBrightness = settingsToSync.ledBrightness;
-    isMainLightEnabled = settingsToSync.isMainLightEnabled;
+    mainLightMode = settingsToSync.mainLightMode;
     isLeftToRightAnimation = settingsToSync.isLeftToRightAnimation;
     startupAnimationDelay = settingsToSync.startupAnimationDelay;
     indicatorAnimationDelay = settingsToSync.indicatorAnimationDelay;
@@ -61,7 +61,7 @@ void syncSettingsViaESPNow()
     settingsToSync.secondFlagColor = secondFlagColor;
     settingsToSync.thirdFlagColor = thirdFlagColor;
     settingsToSync.ledBrightness = ledBrightness;
-    settingsToSync.isMainLightEnabled = isMainLightEnabled;
+    settingsToSync.mainLightMode = mainLightMode;
     settingsToSync.isLeftToRightAnimation = isLeftToRightAnimation;
     settingsToSync.startupAnimationDelay = startupAnimationDelay;
     settingsToSync.indicatorAnimationDelay = indicatorAnimationDelay;
