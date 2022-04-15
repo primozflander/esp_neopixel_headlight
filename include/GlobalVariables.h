@@ -18,6 +18,7 @@
 #define LED_COUNT 210
 #define FLAG_DELAY 20
 #define NUMLEDSEQ 4
+#define INDICATOR_LED_COUNT 50
 
 // Test board pinout
 // #define LED_STRIP_RIGHT_PIN D1

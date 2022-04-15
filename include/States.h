@@ -9,8 +9,8 @@ void state0()
         Serial.println("State0, lights Off");
         if (!isFirstTime)
         {
-            isLeftToRightAnimation ? setColorFromLeftToRight(noColor, animationLeftToRightDelay)
-                                   : setColorSeq(noColor, animationLeftToRightDelay);
+            isLeftToRightAnimation ? setColorFromLeftToRight(noColor, animationLeftToRightDelay, false)
+                                   : setColorSeq(noColor, animationLeftToRightDelay, false);
             isFirstTime = false;
         }
         onboardLed.off();
@@ -61,8 +61,8 @@ void state2()
         if (mainLightMode == 1)
         {
             Serial.println("State2, lights on");
-            isLeftToRightAnimation ? setColorFromLeftToRight(white, animationLeftToRightDelay)
-                                   : setColorSeq(white, animationLeftToRightDelay);
+            isLeftToRightAnimation ? setColorFromLeftToRight(white, animationLeftToRightDelay, false)
+                                   : setColorSeq(white, animationLeftToRightDelay, false);
         }
         else
         {
@@ -74,7 +74,6 @@ void state2()
     if (mainLightMode == 2)
     {
         showMode(10);
-        // Serial.println("State2, here");
     }
 }
 
@@ -106,12 +105,12 @@ void state3()
     }
     if (isLeftToRightAnimation)
     {
-        setColorFromLeftToRight(0, amber, indicatorAnimationDelay);
+        setColorFromLeftToRight(0, amber, indicatorAnimationDelay, true);
         setColorFromLeftToRight(0, noColor, indicatorAnimationDelay);
     }
     else
     {
-        setColorSeq(0, amber, indicatorAnimationDelay);
+        setColorSeq(0, amber, indicatorAnimationDelay, true);
         setColorSeq(0, noColor, indicatorAnimationDelay);
     }
     !indicatorSwitchRight.isPressed() ? indicatorOffCounter++ : indicatorOffCounter = 0;
@@ -157,12 +156,12 @@ void state4()
         if (isLeftToRightAnimation)
         {
             showFlagColorsFromLeftToRight(animationLeftToRightDelay);
-            setColorFromLeftToRight(noColor, animationLeftToRightDelay);
+            setColorFromLeftToRight(noColor, animationLeftToRightDelay, false);
         }
         else
         {
             showFlagColorsSeq(animationSeqDelay);
-            setColorSeq(noColor, animationSeqDelay);
+            setColorSeq(noColor, animationSeqDelay, false);
         }
     }
 }
@@ -182,12 +181,12 @@ void state5()
     }
     if (isLeftToRightAnimation)
     {
-        setColorFromLeftToRight(1, amber, indicatorAnimationDelay);
+        setColorFromLeftToRight(1, amber, indicatorAnimationDelay, true);
         setColorFromLeftToRight(1, noColor, indicatorAnimationDelay);
     }
     else
     {
-        setColorSeq(1, amber, indicatorAnimationDelay);
+        setColorSeq(1, amber, indicatorAnimationDelay, true);
         setColorSeq(1, noColor, indicatorAnimationDelay);
     }
     !indicatorSwitchLeft.isPressed() ? indicatorOffCounter++ : indicatorOffCounter = 0;
@@ -253,13 +252,13 @@ void state6()
     }
     if (isLeftToRightAnimation)
     {
-        setColorFromLeftToRight(amber, indicatorAnimationDelay);
-        setColorFromLeftToRight(noColor, indicatorAnimationDelay);
+        setColorFromLeftToRight(amber, indicatorAnimationDelay, true);
+        setColorFromLeftToRight(noColor, indicatorAnimationDelay, false);
     }
     else
     {
-        setColorSeq(amber, indicatorAnimationDelay);
-        setColorSeq(noColor, indicatorAnimationDelay);
+        setColorSeq(amber, indicatorAnimationDelay, true);
+        setColorSeq(noColor, indicatorAnimationDelay, false);
     }
     (!indicatorSwitchLeft.isPressed() || !indicatorSwitchRight.isPressed()) ? indicatorOffCounter++ : indicatorOffCounter = 0;
 }

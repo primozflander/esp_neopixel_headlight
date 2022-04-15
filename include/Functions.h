@@ -40,7 +40,7 @@ void showMode(int stepDelay = 26)
     leftStrip.show();
 }
 
-void setColorFromLeftToRightSingleRing(bool side, uint32_t color, int wait, int numLeds, int offset = 0, int numLedsSimultaneously = NUMLEDSEQ)
+void setColorFromLeftToRightSingleRing(bool side, uint32_t color, int wait, int numLeds, int offset = 0, bool limitNumLeds = false)
 {
     if (numLeds % 2 == 1)
     {
@@ -49,12 +49,20 @@ void setColorFromLeftToRightSingleRing(bool side, uint32_t color, int wait, int 
     }
     if (side == 0)
     {
-        for (int i = 0; i < numLeds / 2; i += numLedsSimultaneously)
+        for (int i = 0; i < numLeds / 2; i += NUMLEDSEQ)
         {
-            for (int j = 0; j < numLedsSimultaneously; j++)
+            for (int j = 0; j < NUMLEDSEQ; j++)
             {
-                rightStrip.setPixelColor(i + j + offset, color);
-                rightStrip.setPixelColor(numLeds - 1 - i - j + offset, color);
+                if (limitNumLeds && ((i + j) > INDICATOR_LED_COUNT))
+                {
+                    rightStrip.setPixelColor(i + j + offset, noColor);
+                    rightStrip.setPixelColor(numLeds - 1 - i - j + offset, noColor);
+                }
+                else
+                {
+                    rightStrip.setPixelColor(i + j + offset, color);
+                    rightStrip.setPixelColor(numLeds - 1 - i - j + offset, color);
+                }
             }
             rightStrip.show();
             delay(wait);
@@ -62,12 +70,20 @@ void setColorFromLeftToRightSingleRing(bool side, uint32_t color, int wait, int 
     }
     else
     {
-        for (int i = 0; i < numLeds / 2; i += numLedsSimultaneously)
+        for (int i = 0; i < numLeds / 2; i += NUMLEDSEQ)
         {
-            for (int j = 0; j < numLedsSimultaneously; j++)
+            for (int j = 0; j < NUMLEDSEQ; j++)
             {
-                leftStrip.setPixelColor(i + j + offset, color);
-                leftStrip.setPixelColor(numLeds - 1 - i - j + offset, color);
+                if (limitNumLeds && ((i + j) > INDICATOR_LED_COUNT))
+                {
+                    leftStrip.setPixelColor(i + j + offset, noColor);
+                    leftStrip.setPixelColor(numLeds - 1 - i - j + offset, noColor);
+                }
+                else
+                {
+                    leftStrip.setPixelColor(i + j + offset, color);
+                    leftStrip.setPixelColor(numLeds - 1 - i - j + offset, color);
+                }
             }
             leftStrip.show();
             delay(wait);
@@ -75,21 +91,31 @@ void setColorFromLeftToRightSingleRing(bool side, uint32_t color, int wait, int 
     }
 }
 
-void setColorFromLeftToRightSingleRing(uint32_t color, int wait, int numLeds, int offset = 0, int numLedsSimultaneously = NUMLEDSEQ)
+void setColorFromLeftToRightSingleRing(uint32_t color, int wait, int numLeds, int offset = 0, bool limitNumLeds = false)
 {
     if (numLeds % 2 == 1)
     {
         Serial.println("Error, numLeds must be even!");
         return;
     }
-    for (int i = 0; i < numLeds / 2; i += numLedsSimultaneously)
+    for (int i = 0; i < numLeds / 2; i += NUMLEDSEQ)
     {
-        for (int j = 0; j < numLedsSimultaneously; j++)
+        for (int j = 0; j < NUMLEDSEQ; j++)
         {
-            rightStrip.setPixelColor(i + j + offset, color);
-            rightStrip.setPixelColor(numLeds - 1 - i - j + offset, color);
-            leftStrip.setPixelColor(i + j + offset, color);
-            leftStrip.setPixelColor(numLeds - 1 - i - j + offset, color);
+            if (limitNumLeds && ((i + j) > INDICATOR_LED_COUNT))
+            {
+                rightStrip.setPixelColor(i + j + offset, noColor);
+                rightStrip.setPixelColor(numLeds - 1 - i - j + offset, noColor);
+                leftStrip.setPixelColor(i + j + offset, noColor);
+                leftStrip.setPixelColor(numLeds - 1 - i - j + offset, noColor);
+            }
+            else
+            {
+                rightStrip.setPixelColor(i + j + offset, color);
+                rightStrip.setPixelColor(numLeds - 1 - i - j + offset, color);
+                leftStrip.setPixelColor(i + j + offset, color);
+                leftStrip.setPixelColor(numLeds - 1 - i - j + offset, color);
+            }
         }
         rightStrip.show();
         leftStrip.show();
@@ -97,35 +123,42 @@ void setColorFromLeftToRightSingleRing(uint32_t color, int wait, int numLeds, in
     }
 }
 
-void setColorFromLeftToRight(bool side, uint32_t color, int wait)
+void setColorFromLeftToRight(bool side, uint32_t color, int wait, bool limitNumLeds)
 {
     // setColorFromLeftToRightSingleRing(side, color, wait, 16, 0);
     // setColorFromLeftToRightSingleRing(side, color, wait, 16, 16);
     // setColorFromLeftToRightSingleRing(side, color, wait, 16, 32);
     // setColorFromLeftToRightSingleRing(side, color, wait, 16, 48);
 
-    setColorFromLeftToRightSingleRing(side, color, wait, 210, 0);
+    setColorFromLeftToRightSingleRing(side, color, wait, LED_COUNT, 0, limitNumLeds);
 }
 
-void setColorFromLeftToRight(uint32_t color, int wait)
+void setColorFromLeftToRight(uint32_t color, int wait, bool limitNumLeds)
 {
     // setColorFromLeftToRightSingleRing(color, wait, 16, 0);
     // setColorFromLeftToRightSingleRing(color, wait, 16, 16);
     // setColorFromLeftToRightSingleRing(color, wait, 16, 32);
     // setColorFromLeftToRightSingleRing(color, wait, 16, 48);
 
-    setColorFromLeftToRightSingleRing(color, wait, 210, 0);
+    setColorFromLeftToRightSingleRing(color, wait, LED_COUNT, 0, limitNumLeds);
 }
 
-void setColorSeq(bool side, uint32_t color, int wait, int numLedsSimultaneously = NUMLEDSEQ)
+void setColorSeq(bool side, uint32_t color, int wait, bool limitNumLeds)
 {
     if (side == 0)
     {
-        for (int i = 0; i < rightStrip.numPixels(); i += numLedsSimultaneously)
+        for (int i = 0; i < rightStrip.numPixels(); i += NUMLEDSEQ)
         {
-            for (int j = 0; j < numLedsSimultaneously; j++)
+            for (int j = 0; j < NUMLEDSEQ; j++)
             {
-                rightStrip.setPixelColor(i + j, color);
+                if (limitNumLeds && ((i + j) > INDICATOR_LED_COUNT))
+                {
+                    rightStrip.setPixelColor(i + j, noColor);
+                }
+                else
+                {
+                    rightStrip.setPixelColor(i + j, color);
+                }
             }
             rightStrip.show();
             delay(wait);
@@ -133,11 +166,18 @@ void setColorSeq(bool side, uint32_t color, int wait, int numLedsSimultaneously 
     }
     else
     {
-        for (int i = 0; i < leftStrip.numPixels(); i += numLedsSimultaneously)
+        for (int i = 0; i < leftStrip.numPixels(); i += NUMLEDSEQ)
         {
-            for (int j = 0; j < numLedsSimultaneously; j++)
+            for (int j = 0; j < NUMLEDSEQ; j++)
             {
-                leftStrip.setPixelColor(i + j, color);
+                if (limitNumLeds && ((i + j) > INDICATOR_LED_COUNT))
+                {
+                    leftStrip.setPixelColor(i + j, noColor);
+                }
+                else
+                {
+                    leftStrip.setPixelColor(i + j, color);
+                }
             }
             leftStrip.show();
             delay(wait);
@@ -145,14 +185,22 @@ void setColorSeq(bool side, uint32_t color, int wait, int numLedsSimultaneously 
     }
 }
 
-void setColorSeq(uint32_t color, int wait, int numLedsSimultaneously = NUMLEDSEQ)
+void setColorSeq(uint32_t color, int wait, bool limitNumLeds)
 {
-    for (int i = 0; i < rightStrip.numPixels(); i += numLedsSimultaneously)
+    for (int i = 0; i < LED_COUNT; i += NUMLEDSEQ)
     {
-        for (int j = 0; j < numLedsSimultaneously; j++)
+        for (int j = 0; j < NUMLEDSEQ; j++)
         {
-            rightStrip.setPixelColor(i + j, color);
-            leftStrip.setPixelColor(i + j, color);
+            if (limitNumLeds && ((i + j) > INDICATOR_LED_COUNT))
+            {
+                rightStrip.setPixelColor(i + j, noColor);
+                leftStrip.setPixelColor(i + j, noColor);
+            }
+            else
+            {
+                rightStrip.setPixelColor(i + j, color);
+                leftStrip.setPixelColor(i + j, color);
+            }
         }
         rightStrip.show();
         leftStrip.show();
@@ -162,19 +210,19 @@ void setColorSeq(uint32_t color, int wait, int numLedsSimultaneously = NUMLEDSEQ
 
 void showFlagColorsSeq(int wait)
 {
-    setColorSeq(firstFlagColor, wait);
-    setColorSeq(secondFlagColor, wait);
-    setColorSeq(thirdFlagColor, wait);
-    setColorSeq(noColor, wait);
+    setColorSeq(firstFlagColor, wait, false);
+    setColorSeq(secondFlagColor, wait, false);
+    setColorSeq(thirdFlagColor, wait, false);
+    setColorSeq(noColor, wait, false);
     delay(FLAG_DELAY);
 }
 
 void showFlagColorsFromLeftToRight(int wait)
 {
-    setColorFromLeftToRight(firstFlagColor, wait);
-    setColorFromLeftToRight(secondFlagColor, wait);
-    setColorFromLeftToRight(thirdFlagColor, wait);
-    setColorFromLeftToRight(noColor, wait);
+    setColorFromLeftToRight(firstFlagColor, wait, false);
+    setColorFromLeftToRight(secondFlagColor, wait, false);
+    setColorFromLeftToRight(thirdFlagColor, wait, false);
+    setColorFromLeftToRight(noColor, wait, false);
     delay(FLAG_DELAY);
 }
 
