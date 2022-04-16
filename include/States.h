@@ -79,7 +79,7 @@ void state2()
 
 bool transitionS2S3()
 {
-    if (indicatorSwitchRight.isPressed() && mainLightMode)
+    if (indicatorSwitchRight.isPressed() && mainLightMode == 1)
     {
         Serial.println("Right indicator on");
         return true;
@@ -102,16 +102,17 @@ void state3()
     if (states.executeOnce)
     {
         Serial.println("State 3, right indicator on");
+        rightStrip.fill(noColor);
     }
     if (isLeftToRightAnimation)
     {
         setColorFromLeftToRight(0, amber, indicatorAnimationDelay, true);
-        setColorFromLeftToRight(0, noColor, indicatorAnimationDelay);
+        setColorFromLeftToRight(0, noColor, indicatorAnimationDelay, true);
     }
     else
     {
         setColorSeq(0, amber, indicatorAnimationDelay, true);
-        setColorSeq(0, noColor, indicatorAnimationDelay);
+        setColorSeq(0, noColor, indicatorAnimationDelay, true);
     }
     !indicatorSwitchRight.isPressed() ? indicatorOffCounter++ : indicatorOffCounter = 0;
 }
@@ -178,16 +179,17 @@ void state5()
     if (states.executeOnce)
     {
         Serial.println("State 5, left indicator on");
+        leftStrip.fill(noColor);
     }
     if (isLeftToRightAnimation)
     {
         setColorFromLeftToRight(1, amber, indicatorAnimationDelay, true);
-        setColorFromLeftToRight(1, noColor, indicatorAnimationDelay);
+        setColorFromLeftToRight(1, noColor, indicatorAnimationDelay, true);
     }
     else
     {
         setColorSeq(1, amber, indicatorAnimationDelay, true);
-        setColorSeq(1, noColor, indicatorAnimationDelay);
+        setColorSeq(1, noColor, indicatorAnimationDelay, true);
     }
     !indicatorSwitchLeft.isPressed() ? indicatorOffCounter++ : indicatorOffCounter = 0;
 }
@@ -204,7 +206,7 @@ bool transitionS0S5()
 
 bool transitionS2S5()
 {
-    if (indicatorSwitchLeft.isPressed() && mainLightMode)
+    if (indicatorSwitchLeft.isPressed() && mainLightMode == 1)
     {
         Serial.println("Left indicator on");
         return true;
