@@ -13,12 +13,12 @@
 #define INDICATOR_SWITCH_RIGHT_PIN 4
 #define INDICATOR_SWITCH_LEFT_PIN 13
 #define POWER_HOLD_PIN 14
-#define STATE_DELAY 100
-#define INDICATOR_TURN_OFF_COUNTER 0
+#define STATE_DELAY 500
 #define LED_COUNT 210
 #define FLAG_DELAY 20
 #define NUMLEDSEQ 2
 #define INDICATOR_LED_COUNT 50
+#define INDICATOR_OFF_TIMER 1500
 
 // Test board pinout
 // #define LED_STRIP_RIGHT_PIN D1
@@ -29,12 +29,12 @@
 // #define INDICATOR_SWITCH_RIGHT_PIN D6
 // #define INDICATOR_SWITCH_LEFT_PIN D7
 // #define POWER_HOLD_PIN D3
-// #define STATE_DELAY 10
-// #define INDICATOR_TURN_OFF_COUNTER 0
+// #define STATE_DELAY 500
 // #define LED_COUNT 4
 // #define FLAG_DELAY 100
 // #define NUMLEDSEQ 1
 // #define INDICATOR_LED_COUNT 2
+// #define INDICATOR_OFF_TIMER 1500
 
 StateMachine states = StateMachine();
 Adafruit_NeoPixel rightStrip(LED_COUNT, LED_STRIP_RIGHT_PIN, NEO_GRB);
@@ -67,6 +67,8 @@ struct_settings settingsToSync;
 
 bool isLightOn = false;
 unsigned long indicatorOffCounter = 0;
+unsigned long rightIndicatorIntTime = 0;
+unsigned long leftIndicatorIntTime = 0;
 const char *SSID = "NeoPixel_Headlights_AP";
 const char *PASSWORD = "Esp32!_x";
 bool isLeftToRightAnimation = true;

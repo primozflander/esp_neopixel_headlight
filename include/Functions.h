@@ -305,6 +305,18 @@ void readConfigAndSetVariables()
     !loadConfig() ? Serial.println("Failed to load config") : Serial.println("Config loaded");
 }
 
+IRAM_ATTR void didRightIndicatorStateChanged()
+{
+    Serial.println("RIGHT INDICATOR INTERRUPT!!!");
+    unsigned long rightIndicatorIntTime = millis();
+}
+
+IRAM_ATTR void didLeftIndicatorStateChanged()
+{
+    Serial.println("LEFT INDICATOR INTERRUPT!!!");
+    unsigned long leftIndicatorIntTime = millis();
+}
+
 void initIO()
 {
     pinMode(POWER_HOLD_PIN, OUTPUT);
@@ -319,6 +331,8 @@ void initIO()
     leftStrip.setBrightness(ledBrightness);
     rightStrip.begin();
     leftStrip.begin();
+    attachInterrupt(digitalPinToInterrupt(INDICATOR_SWITCH_RIGHT_PIN), didRightIndicatorStateChanged, RISING);
+    attachInterrupt(digitalPinToInterrupt(INDICATOR_SWITCH_LEFT_PIN), didLeftIndicatorStateChanged, RISING);
     Serial.println("Setup complete");
 }
 
